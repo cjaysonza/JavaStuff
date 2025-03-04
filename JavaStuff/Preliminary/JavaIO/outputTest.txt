@@ -1,0 +1,13 @@
+Store Name: TestIfItWorksInNetbeans
+Sari-Sari Store
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ITEMS		PRICES
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Chips  		$  12.05
+Bread  		$   5.10
+Milk   		$  20.33
+3in1   		$   1.00
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+subtotal	$  38.48
+Tax(25%)	$   9.62
+Total  		$  48.10

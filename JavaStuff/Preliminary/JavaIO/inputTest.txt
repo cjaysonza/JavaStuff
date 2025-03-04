@@ -1,0 +1,6 @@
+TestIfItWorksInNetbeans
+Chips 12.05
+Bread 5.1
+Milk 20.33
+3in1 1.0
+0.25
