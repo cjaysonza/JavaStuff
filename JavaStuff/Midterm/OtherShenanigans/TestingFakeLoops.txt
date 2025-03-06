@@ -1,0 +1,43 @@
+while (thing.hasNext()) {
+    if (cond) {
+        break;
+    }
+}
+
+int num = 1;
+for (int i = 0; i < 5; i++) {
+    do_stuff();
+}
+
+
+int state = 0;
+while (state != 4) {
+    switch (state) {
+        case 1:
+            if (cond) {
+                state++;
+                continue;
+            }
+            break;
+        case 2:
+            int num = 1;
+            int i = 0;
+            state++;
+        case 3:
+            if (!(i < 5)) {
+                state++;
+                continue;
+            }
+            do_stuff();
+            i++;
+            break;
+    }
+}
+
+if (state == 1) {
+    //Code Block
+    if (something here) 
+    state = 1;
+    else 
+    state++;
+}
