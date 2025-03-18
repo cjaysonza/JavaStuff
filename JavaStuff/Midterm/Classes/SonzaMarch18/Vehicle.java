@@ -1,3 +1,5 @@
+
+
 public class Vehicle {
     private String dateManufacture;
     private double miles_driven;
@@ -43,5 +45,11 @@ public class Vehicle {
     }
     public void setPlaceManufacture(String placeManufacture) {
         this.placeManufacture = placeManufacture;
+    }
+
+    // Override for Printing the raw class
+    @Override
+    public String toString(){
+        return "A Vehicle! Manufactured in: " + getPlaceManufacture();
     }
 }
