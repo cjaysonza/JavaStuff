@@ -23,12 +23,15 @@ public class Project {
         Vehicle ve1 = new Vehicle();
         ve1.setPlaceManufacture("Phiilippines");
         System.out.println(ve1.vehicleNo);
-        ve1.vehicleNo = 4;
+        ve1.setMiles_driven(Double.parseDouble(JOptionPane.showInputDialog("Enter Miles Driven [DOUBLE]: ")));
+        // ve1.vehicleNo = 4;
         System.out.println(ve1.vehicleNo);
         System.out.println(ve1);
 
         Car car1 = new Car();
         System.out.println(car1.vehicleNo);
+        Truck truck1 = new Truck();
+        System.out.println(truck1.vehicleNo);
     }
 
     public static String menu(){

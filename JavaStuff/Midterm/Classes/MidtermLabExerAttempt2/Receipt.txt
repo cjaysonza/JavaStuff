@@ -1,0 +1,7 @@
+No.   Drink Name
+2x    Water
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Subtotal: $25.28
+Tax: $3.54
+Total: $28.82
