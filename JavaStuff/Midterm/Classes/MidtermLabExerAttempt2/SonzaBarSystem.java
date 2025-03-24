@@ -32,28 +32,28 @@ public class SonzaBarSystem {
                         Drink newDrink;
                         newDrink = Displays.createDrink();
                         JOptionPane.showMessageDialog(null, newDrink.introduction());
-                        drinksData += String.format("%d %s %.2f\n", drinkNo, newDrink.name, newDrink.price);
+                        drinksData += String.format("%d %.2f %s\n", drinkNo, newDrink.price, newDrink.name);
                         drinkNo++;
                     break;
                     case "beer" :
                         Beer newBeer;
                         newBeer = Displays.createBeer();
                         JOptionPane.showMessageDialog(null, newBeer.introduction());
-                        drinksData += String.format("%d %s %.2f\n", drinkNo, newBeer.name, newBeer.price);
+                        drinksData += String.format("%d %.2f %s\n", drinkNo, newBeer.price, newBeer.name);
                         drinkNo++;
                     break;
                     case "wine" :
                         Wine newWine;
                         newWine = Displays.createWine();
                         JOptionPane.showMessageDialog(null, newWine.introduction());
-                        drinksData += String.format("%d %s %.2f\n", drinkNo, newWine.name, newWine.price);
+                        drinksData += String.format("%d %.2f %s\n", drinkNo, newWine.price, newWine.name);
                         drinkNo++;
                     break;
                     case "juice" :
                         Juice newJuice;
                         newJuice = Displays.createJuice();
                         JOptionPane.showMessageDialog(null, newJuice.introduction());
-                        drinksData += String.format("%d %s %.2f\n", drinkNo, newJuice.name, newJuice.price);
+                        drinksData += String.format("%d %.2f %s\n", drinkNo, newJuice.price, newJuice.name);
                         drinkNo++;
                     break;
                     case "exit" :
@@ -85,8 +85,8 @@ public class SonzaBarSystem {
                 Scanner drinks = new Scanner(new FileReader("Data.txt")); // Reopen file scanner for each loop
                 while (drinks.hasNext()) {
                     int drinkId = drinks.nextInt();
-                    String drinkName = drinks.next();
                     double drinkPrice = drinks.nextDouble();
+                    String drinkName = drinks.next();
 
                     if (drinkId == userInput) {
                         int boughtAmount = Integer.parseInt(JOptionPane.showInputDialog("How many?"));
