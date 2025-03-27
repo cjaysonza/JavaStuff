@@ -1,7 +1,7 @@
 public class Gatherer extends Tribemen{
     private boolean collectsMedicinalPlants;
     private String prefferedSeason;
-    static int gathererNo = 0;
+    static int gathererNo = 1;
 
     public boolean isCollectsMedicinalPlants() {
         return collectsMedicinalPlants;

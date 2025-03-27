@@ -28,7 +28,7 @@ public class Displays {
     }
 
     public static Gatherer createGatherer(){    
-        String name = JOptionPane.showInputDialog("Enter Farmer Name:");
+        String name = JOptionPane.showInputDialog("Enter Gatherer Name:");
         String tribe = JOptionPane.showInputDialog("Enter Tribe Name:");
         boolean collectsMedPlant = JOptionPane.showConfirmDialog(null, "Does it collect Medicinal Plants?: ", "Med. Plants", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
         String crop = JOptionPane.showInputDialog("What Crop does it Farm?:");

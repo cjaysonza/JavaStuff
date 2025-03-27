@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 public class CSOneB {
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        FileWriter outFileWriter = new FileWriter("allTribesmen.xt");
+        FileWriter outFileWriter = new FileWriter("allTribesmen.txt");
 
         boolean makeNewTribeman = true;
         //  String allTribesmen = "";
@@ -30,17 +30,17 @@ public class CSOneB {
             switch(makeTribesman.toLowerCase()) {
                 case "hunter":
                     Hunter hunter = Displays.createHunter();
-                    hunter.introduction();
+                    JOptionPane.showMessageDialog(null, hunter.introduction());
                     allHunters += String.format("%-3d. %-10s\t\t%-16s\t%-16s\t%-16d\n", Hunter.hunterNo, hunter.getName(), hunter.getTribe(), hunter.getWeapon(), hunter.getSkillLvl());
                 break;
                 case "farmer":
                     Farmer farmer = Displays.createFarmer();
-                    farmer.introduction();
+                    JOptionPane.showMessageDialog(null, farmer.introduction());
                     allFarmers += String.format("%-3d. %-10s\t\t%-16s\t%-16.2f\t%-16s\n", Farmer.farmerNo, farmer.getName(), farmer.getTribe(), farmer.getFieldSize(), farmer.getCrop());
                 break;
                 case "gatherer":
                     Gatherer gatherer = Displays.createGatherer();
-                    gatherer.introduction();
+                    JOptionPane.showMessageDialog(null, gatherer.introduction());
                     allGatherers += String.format("%-3d. %-10s\t\t%-16s\t%-16b\t%-16s\n", Gatherer.gathererNo, gatherer.getName(), gatherer.getTribe(), gatherer.isCollectsMedicinalPlants(), gatherer.getPrefferedSeason());
                 break;
                 case "exit" :
@@ -51,8 +51,9 @@ public class CSOneB {
                 break;
             }
         }
-        JOptionPane.showMessageDialog(null, compileAllClasses(hunterHeader, allHunters, farmerHeader, allFarmers, gatherHeader, allGatherers));
-        outFileWriter.write(compileAllClasses(hunterHeader, allHunters, farmerHeader, allFarmers, gatherHeader, allGatherers));
+        int totalTribesmen = Tribemen.tribeNo;
+        JOptionPane.showMessageDialog(null, compileAllClasses(hunterHeader, allHunters, farmerHeader, allFarmers, gatherHeader, allGatherers, totalTribesmen));
+        outFileWriter.write(compileAllClasses(hunterHeader, allHunters, farmerHeader, allFarmers, gatherHeader, allGatherers, totalTribesmen));
         outFileWriter.close();
     }
 
@@ -72,11 +73,12 @@ public class CSOneB {
     }
 
     // Compiles everything
-    public static String compileAllClasses(String hunterHeader, String allHunters, String farmerHeader, String allFarmers, String gatherHeader, String allGatherers){
+    public static String compileAllClasses(String hunterHeader, String allHunters, String farmerHeader, String allFarmers, String gatherHeader, String allGatherers, int totalTribesmen){
         String FinalOutput = String.format(
             "HUNTERS\n%s%s\n%s" +
             "\nFARMERS\n%s%s\n%s" +
-            "\nGATHERERS\n%s%s\n%s",
+            "\nGATHERERS\n%s%s\n%s" +
+            "\n\nTotal No. of Tribesmen made: %d",
             hunterHeader,
             border(),
             verifyContent(allHunters),
@@ -85,7 +87,8 @@ public class CSOneB {
             verifyContent(allFarmers),
             gatherHeader,
             border(),
-            verifyContent(allGatherers)
+            verifyContent(allGatherers),
+            totalTribesmen
         );
 
         return FinalOutput;

@@ -3,7 +3,7 @@
 public abstract class Tribemen{
     private String name;
     private String tribe;
-    static int tribeNo = 0;
+    static int tribeNo = 1;
 
     public String getName() {
         return name;

@@ -23,6 +23,7 @@ public class SonzaBarSystem {
         String drinksData = "", drinkSelect = "";
         String receipt = "No.   Drink Name\n";
         int drinkNo = 1;
+        String selectHeader = String.format("%-5s\t$%-7s\t%-16s\n", "No.", "Price", "Drink Name");
 
 
         while(inputDrinks){
@@ -33,15 +34,15 @@ public class SonzaBarSystem {
                         newDrink = Displays.createDrink();
                         JOptionPane.showMessageDialog(null, newDrink.introduction());
                         drinksData += String.format("%d %.2f %s\n", drinkNo, newDrink.price, newDrink.name);
-                        drinkSelect += String.format("%d $%.2f %s\n", drinkNo, newDrink.price, newDrink.name);
+                        drinkSelect += String.format("%-7d\t$%-7.2f\t%-7s\n", drinkNo, newDrink.price, newDrink.name);
                         drinkNo++;
-                    break;
+                    break;  
                     case "beer" :
                         Beer newBeer;
                         newBeer = Displays.createBeer();
                         JOptionPane.showMessageDialog(null, newBeer.introduction());
                         drinksData += String.format("%d %.2f %s\n", drinkNo, newBeer.price, newBeer.name);
-                        drinkSelect += String.format("%d $%.2f %s\n", drinkNo, newBeer.price, newBeer.name);
+                        drinkSelect += String.format("%-7d\t$%-7.2f\t%-7s\n", drinkNo, newBeer.price, newBeer.name);
                         drinkNo++;
                     break;
                     case "wine" :
@@ -49,7 +50,7 @@ public class SonzaBarSystem {
                         newWine = Displays.createWine();
                         JOptionPane.showMessageDialog(null, newWine.introduction());
                         drinksData += String.format("%d %.2f %s\n", drinkNo, newWine.price, newWine.name);
-                        drinkSelect += String.format("%d $%.2f %s\n", drinkNo, newWine.price, newWine.name);
+                        drinkSelect += String.format("%-7d\t$%-7.2f\t%-7s\n", drinkNo, newWine.price, newWine.name);
                         drinkNo++;
                     break;
                     case "juice" :
@@ -57,7 +58,7 @@ public class SonzaBarSystem {
                         newJuice = Displays.createJuice();
                         JOptionPane.showMessageDialog(null, newJuice.introduction());
                         drinksData += String.format("%d %.2f %s\n", drinkNo, newJuice.price, newJuice.name);
-                        drinkSelect += String.format("%d $%.2f %s\n", drinkNo, newJuice.price, newJuice.name);
+                        drinkSelect += String.format("%-7d\t$%-7.2f\t%-7s\n", drinkNo, newJuice.price, newJuice.name);
                         drinkNo++;
                     break;
                     case "exit" :
@@ -80,7 +81,7 @@ public class SonzaBarSystem {
             boolean validInput = false;
             
             while (!validInput) {
-                userInput = Integer.parseInt(JOptionPane.showInputDialog("[MUST BE INT INPUT]\n[0] Complete Purchase\n" + drinkSelect));
+                userInput = Integer.parseInt(JOptionPane.showInputDialog("[MUST BE INT INPUT]\n[0] Complete Purchase\n\n" + selectHeader + drinkSelect));
                 if (userInput == 0) {
                     running = false;
                     break;

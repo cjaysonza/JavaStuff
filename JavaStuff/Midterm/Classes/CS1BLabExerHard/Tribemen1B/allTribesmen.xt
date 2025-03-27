@@ -1,7 +1,7 @@
 HUNTERS
 No . NAME      		TRIBE           	Weapon          	Skill level     
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-NONE
+1  . adf       		asdf            	adf             	234             
 
 FARMERS
 No . NAME      		TRIBE           	Field Size      	Crop            
@@ -12,3 +12,6 @@ GATHERERS
 No . NAME      		TRIBE           	Col. Med Plant? 	Pref. Season    
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 NONE
+
+
+Total No. of Tribesmen made: 1

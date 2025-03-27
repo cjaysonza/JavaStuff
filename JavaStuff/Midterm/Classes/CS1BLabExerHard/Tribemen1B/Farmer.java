@@ -1,7 +1,7 @@
 public class Farmer extends Tribemen {
     private double fieldSize;
     private String crop;
-    static int farmerNo = 0;
+    static int farmerNo = 1;
 
 
     public double getFieldSize() {

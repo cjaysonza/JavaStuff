@@ -3,7 +3,7 @@
 public class Hunter extends Tribemen{
     private String weapon;
     private int skillLvl;
-    static int hunterNo = 0;
+    static int hunterNo = 1;
 
 
     public String getWeapon() {
