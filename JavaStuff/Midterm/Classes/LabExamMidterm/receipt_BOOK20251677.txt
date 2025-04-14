@@ -1,0 +1,13 @@
+Booking Receipt
+---------------------
+Booking ID: BOOK20251677
+Guest ID: GUEST20254083
+Name: Yusgyus
+Age: 14
+Contact: 155464756
+Email: ert1ertuqrtqrty
+Room Number: 105
+Room Type: Suite
+Price per Night: $150.00
+Nights: 4
+Total Cost (after tax): $630.00

@@ -1,0 +1,13 @@
+Booking Receipt
+---------------------
+Booking ID: BOOK20251428
+Guest ID: GUEST20259020
+Name: Awser
+Age: 12
+Contact: 1223333
+Email: gfdsrretret
+Room Number: 102
+Room Type: Single
+Price per Night: $55.00
+Nights: 3
+Total Cost (after tax): $173.25
