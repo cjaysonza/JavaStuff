@@ -28,4 +28,15 @@ public class Section {
     public void addStudent(Student s) {
         students.add(s);
     }
+
+    @Override
+    public String toString() {
+        String output = sectionName + "\n";
+        for (int i = 0; i < students.size(); i++) {
+            Student student = students.get(i);
+            output += String.format("%d. %s, %s: %s\n", i, student.surname, student.firstname, student.getStudentID());
+        }
+        return output;
+    }
+
 }
