@@ -1,5 +1,7 @@
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class TeachingStaff extends Person {
     private String staffID;
@@ -78,5 +80,26 @@ public class TeachingStaff extends Person {
         );
     }
 
-    
+    public static TeachingStaff fromString(String line) {
+        if (line.equals("---")) {
+            return null;
+        }
+        Scanner lineScanner = new Scanner(line);
+        lineScanner.useDelimiter(",");
+        String surname = lineScanner.next();
+        String firstname = lineScanner.next();
+        String staffID = lineScanner.next();
+        String password = lineScanner.next();
+        String department = lineScanner.next();
+        String sectionsStr = lineScanner.next().replaceAll("\\[|\\]", "");
+        String coursesStr = lineScanner.next().replaceAll("\\[|\\]", "");
+        String teachingRecord = lineScanner.next();
+        TeachingStaff staff = new TeachingStaff(
+            surname, firstname, staffID, password, department,
+            new ArrayList<>(List.of(sectionsStr.split(";"))),
+            new ArrayList<>(List.of(coursesStr.split(";"))),
+            teachingRecord
+        );
+        return staff;
+    }
 }

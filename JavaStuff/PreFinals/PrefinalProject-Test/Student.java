@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Student extends Person {
     private String studentID;
@@ -7,19 +8,13 @@ public class Student extends Person {
     private String[] letterGrades;
     private double[] numGrades;
 
-    public Student() {
-        this.courses = new String[6];
-        this.letterGrades = new String[]{"--", "--", "--", "--", "--", "--"};
-        this.numGrades = new double[]{0.00, 0.00, 0.00, 0.00, 0.00, 0.00};
-    }
-
-    public Student(String surname, String firstname, String studentID, String major, String[] courses) {
+    public Student(String surname, String firstname, String studentID, String major, String[] courses, String[] letterGrades, double[] numGrades) {
         super(surname, firstname);
         this.studentID = studentID;
         this.major = major;
         this.courses = courses;
-        this.letterGrades = new String[]{"--", "--", "--", "--", "--", "--"};
-        this.numGrades = new double[]{0.00, 0.00, 0.00, 0.00, 0.00, 0.00};
+        this.letterGrades = letterGrades;
+        this.numGrades = numGrades;
     }
 
     // Getters and Setters
@@ -66,6 +61,24 @@ public class Student extends Person {
 
     @Override
     public String toString() {
-        return surname + ", " + firstname + ", " + studentID + ", " + major + ", " + Arrays.toString(courses) + ", " + Arrays.toString(letterGrades) + ", " + Arrays.toString(numGrades);
+        return surname + ", " + firstname + ", " + studentID + ", " + major + ", " + Arrays.toString(courses).replaceAll(",", ";") + ", " + Arrays.toString(letterGrades).replaceAll(",", ";") + ", " + Arrays.toString(numGrades).replaceAll(",", ";");
+    }
+
+    public static Student fromString(String line) {
+        Scanner scan = new Scanner(line);
+        scan.useDelimiter(",");
+        String surname = scan.next().trim();
+        String firstname = scan.next().trim();
+        String studentID = scan.next().trim();
+        String major = scan.next().trim();
+        String[] courses = Utility.parseArray(scan.next().trim());
+        String[] letterGrades = new String[]{"--", "--", "--", "--", "--", "--"};
+        double[] numGrades = new double[]{0.00, 0.00, 0.00, 0.00, 0.00, 0.00};
+        if (scan.hasNext()) {
+            letterGrades = Utility.parseArray(scan.next().trim());
+            numGrades = Utility.parseDoubleArray(scan.next().trim());
+        }
+        scan.close();
+        return new Student(surname, firstname, studentID, major, courses, letterGrades, numGrades);
     }
 }
