@@ -1,6 +1,7 @@
 /*
  * 
  * This is a simple Java program that serves as a starting point for a student grading system.
+ * @author: csonza, rmol, vgba
  * 
  */
 
@@ -15,14 +16,79 @@ public class StudentGradingSystem {
         ArrayList<Section> allSections = new ArrayList<>();
         ArrayList<TeachingStaff> allTeachingStaff = new ArrayList<>();
 
+        // There can only be one admin in the system
+        Admin currentAdmin = Admin.readAdminFromFile();
+        writeAdminToAdminRecords(currentAdmin);
+
+        // // This is the first time the system is run, so we need to seed the database
         // seedSectionsAndStudents(allSections);
         // seedTeachingStaff(allTeachingStaff);
+        
+        // // This is not the first time the system is run, so we need to read the database
+        // readTeachingStaffFromFiles(allTeachingStaff);
+        // readAllSectionsFromFiles(allSections);
+        
 
-        readTeachingStaffFromFiles(allTeachingStaff);
-        readAllSectionsFromFiles(allSections);
+
+        // Temporary code to test the system
+        // while (true) {
+        //     System.out.println("Welcome to the Student Grading System!");
+        //     System.out.println("1. Seed Sections and Students");
+        //     System.out.println("2. Seed Teaching Staff");
+        //     System.out.println("3. Read Teaching Staff from Files");
+        //     System.out.println("4. Read All Sections from Files");
+        //     System.out.println("5. Write Section to File");
+        //     System.out.println("6. Write Teaching Staff to File");
+        //     System.out.println("7. Print First Student of Every Section");
+        //     System.out.println("8. Exit");
+        //     Scanner scanner = new Scanner(System.in);
+        //     int choice = scanner.nextInt();
+        //     switch (choice) {
+        //         case 1:
+        //             seedSectionsAndStudents(allSections);
+        //             break;
+        //         case 2:
+        //             seedTeachingStaff(allTeachingStaff);
+        //             break;
+        //         case 3:
+        //             readTeachingStaffFromFiles(allTeachingStaff);
+        //             break;
+        //         case 4:
+        //             readAllSectionsFromFiles(allSections);
+        //             break;
+        //         case 5:
+        //             writeSectionToFile(allSections.get(0)); // Example: write the first section
+        //             break;
+        //         case 6:
+        //             writeTeachingStaffToFile(allTeachingStaff);
+        //             break;
+        //         case 7:
+        //             printFirstStudentOfEverySection(allSections);
+        //             break;
+        //         case 8:
+        //             System.exit(0);
+        //         default:
+        //             System.out.println("Invalid choice. Please try again.");
+        //     }
+        // }
+
 
         
-        printFirstStudentOfEverySection(allSections);
+        // Uncomment the following lines to run the program without user input
+        // printFirstStudentOfEverySection(allSections);
+        
+    }
+
+
+
+    private static void writeAdminToAdminRecords(Admin currentAdmin) throws IOException {
+        FileWriter adminWriter = new FileWriter("adminRecords/" + currentAdmin.getAdminFileName());
+            adminWriter.write("Name: " + currentAdmin.getFirstname() + " " + currentAdmin.getSurname() + "\n");
+            adminWriter.write("Admin ID: " + currentAdmin.getAdminID() + "\n");
+            adminWriter.write("Password: " + currentAdmin.getPassword() + "\n");
+            adminWriter.write("Department: Adminstritative - Program Management\n");
+            adminWriter.write("Records and Actions: \n");
+        adminWriter.close();
     }
 
     private static void printFirstStudentOfEverySection(ArrayList<Section> allSections) {
@@ -59,26 +125,6 @@ public class StudentGradingSystem {
             }
             System.out.println(staff + "\n");
         }
-    }
-
-    private static void readAllSectionsFromFiles(ArrayList<Section> allSections)
-            throws IOException, FileNotFoundException {
-        File allSectionsFile = new File("allSections/all-sections.txt");
-        if (!allSectionsFile.exists()) {
-            System.out.println("all-sections.txt file not found.");
-            return;
-        }
-        Scanner allSectionsScanner = new Scanner(allSectionsFile);
-        while (allSectionsScanner.hasNextLine()) {
-            String line = allSectionsScanner.nextLine().trim();
-            Section section = new Section(line);
-            section.loadFromFile();
-            allSections.add(section);
-        }
-
-        // print out all sections and students
-        System.out.println("All Sections and Students:");
-
     }
 
     private static void seedTeachingStaff(ArrayList<TeachingStaff> allTeachingStaff)
@@ -206,6 +252,26 @@ public class StudentGradingSystem {
         // for (Section section : allSections) {
         // System.out.println(section);
         // }
+    }
+
+    private static void readAllSectionsFromFiles(ArrayList<Section> allSections)
+            throws IOException, FileNotFoundException {
+        File allSectionsFile = new File("allSections/all-sections.txt");
+        if (!allSectionsFile.exists()) {
+            System.out.println("all-sections.txt file not found.");
+            return;
+        }
+        Scanner allSectionsScanner = new Scanner(allSectionsFile);
+        while (allSectionsScanner.hasNextLine()) {
+            String line = allSectionsScanner.nextLine().trim();
+            Section section = new Section(line);
+            section.loadFromFile();
+            allSections.add(section);
+        }
+
+        // print out all sections and students
+        System.out.println("All Sections and Students:");
+
     }
 
     public static void writeSectionToFile(Section section) throws IOException, FileNotFoundException {
