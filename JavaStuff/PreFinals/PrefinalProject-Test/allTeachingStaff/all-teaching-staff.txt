@@ -1,4 +1,3 @@
-admin,is,000001,iamtheadmin,ADMINSTRITIVE,[All],[System],-
 De Juan,Alejandro,160200,PASSWORD,Computer Studies,[CS1A;IT1B],[Computer Programming 1;Introduction To Computing],-
 Reyes,Marco,160201,PASSWORD,Computer Studies,[CS1B;IT1A],[Competitive Programming 1;Computer Programming 1],-
 Patel,Thomas,160202,PASSWORD,Mathematics,[IT1B;CS1B],[Math1000;Statistics],-

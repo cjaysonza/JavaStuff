@@ -1,6 +1,0 @@
-Name: is admin
-Staff ID: 000001
-Department: ADMINSTRITIVE
-Sections Handled: All
-Courses Taught: System
-Teaching Record: -

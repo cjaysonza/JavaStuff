@@ -1,3 +1,8 @@
+/*
+ *
+ *  This is a utility class that provides various helper methods for certain things in the project.
+ * 
+ */
 import java.util.Random;
 
 public class Utility {
