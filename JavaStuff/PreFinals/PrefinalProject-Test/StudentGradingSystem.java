@@ -20,6 +20,15 @@ public class StudentGradingSystem {
         Admin currentAdmin = Admin.readAdminFromFile();
         writeAdminToAdminRecords(currentAdmin);
 
+        readTeachingStaffFromFiles(allTeachingStaff);
+        readAllSectionsFromFiles(allSections);
+
+
+        teachingStaffInput(allTeachingStaff, allSections);
+
+       
+        
+
         // // This is the first time the system is run, so we need to seed the database
         // seedSectionsAndStudents(allSections);
         // seedTeachingStaff(allTeachingStaff);
@@ -79,7 +88,255 @@ public class StudentGradingSystem {
         
     }
 
+    private static void teachingStaffInput(ArrayList<TeachingStaff> allTeachingStaff, ArrayList<Section> allSections) throws FileNotFoundException, IOException{
+        Scanner scanner = new Scanner(System.in);
+        TeachingStaff currentStaff = null;
 
+        //login
+        while (currentStaff == null) {
+            System.out.println("Teaching Staff Login");
+            System.out.println("Staff ID: ");
+            String staffID = scanner.nextLine().trim();
+            System.out.println("Password: ");
+            String password = scanner.nextLine().trim();
+
+            currentStaff = null;
+            for (TeachingStaff staff : allTeachingStaff) {
+                if (staff.getStaffID().equals(staffID) && staff.getPassword().equals(password)) {
+                    currentStaff = staff;
+                    break;
+                }
+            }
+
+            if (currentStaff == null) {
+                System.out.println("Invalid Staff ID or Password. Please try again.");
+                return; // Exit or loop back to retry
+            }
+
+        }
+        System.out.println("Welcome, " + currentStaff.getFirstname() + " " + currentStaff.getSurname() + "!");
+
+        while (true) {
+            System.out.println("\n Teaching Staff Menu");
+            System.out.println("1. Grade Students");
+            System.out.println("2. Exit");
+            System.out.println("Enter choice(1-2): ");
+
+            int choice = scanner.nextInt();
+
+            if(choice < 1 || choice > 2) {
+                System.out.println("Invalid choice. Please try again.");
+                continue;
+            }
+
+            switch (choice) {
+                case 1:
+                    selectSection(currentStaff, scanner, allSections);
+                    break;
+                case 2:
+                    System.out.println("Logging out...");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void selectSection(TeachingStaff staff, Scanner scanner, ArrayList<Section> allSections) throws IOException, FileNotFoundException {
+        ArrayList<String> sections = staff.getSectionsHandled();
+        if (sections.isEmpty()) {
+            System.out.println("No sections handled.");
+            return;
+        }
+
+        System.out.println("Sections Handled:");
+        for (int i = 0; i < sections.size(); i++) {
+            System.out.println((i + 1) + ". " + sections.get(i));
+        }
+        System.out.println("3. Back to Menu");
+        System.out.println("Select a section (1-" + sections.size() +"): ");
+        System.out.flush();
+
+        if (scanner.hasNextLine()) {
+            scanner.nextLine();
+        }
+
+        String input = scanner.nextLine().trim();
+        int choice;
+        if (input.matches("\\d+")) {
+            choice = Integer.parseInt(input);
+        } else {
+            System.out.println("Invalid input. Please enter a number.");
+            return;
+        }
+
+        if (choice < 1 || choice > sections.size() + 1) {
+            System.out.println("Invalid section number. Please select a number between 1 and " + sections.size());
+            return;
+        }
+
+        if (choice == sections.size() + 1) {
+            System.out.println("Going back to menu...");
+            return;
+        }
+
+        String selectedSection = sections.get(choice - 1);
+        System.out.println("Selected section: " + selectedSection);
+
+        for (Section section : allSections) {
+            if (section.getSectionName().equals(selectedSection)) {
+                System.out.println("Grading students in " + selectedSection + ":\n");
+                selectCourse(staff, scanner, section, allSections);
+                break;
+            }
+        }
+    }
+
+    private static void selectCourse(TeachingStaff staff, Scanner scanner, Section section, ArrayList<Section> allSections) throws IOException, FileNotFoundException {
+        ArrayList<String> courses = staff.getCoursesTaught();
+        if (courses.isEmpty()) {
+            System.out.println("No courses taught.");
+            return;
+        }
+
+        System.out.println("Courses Taught:");
+        for (int i = 0; i < courses.size(); i++) {
+            System.out.println((i + 1) + ". " + courses.get(i));
+        }
+        System.out.println((courses.size() + 1) + ". Back to Menu");
+        System.out.print("Select a course to grade (1-" + (courses.size() + 1) + "): ");
+
+        String input = scanner.nextLine().trim();
+        if (!input.matches("\\d+")) {
+            System.out.println("Invalid input. Please enter a number.");
+            return;
+        }
+        int choice = Integer.parseInt(input);
+
+        if (choice < 1 || choice > courses.size() + 1) {
+            System.out.println("Invalid course number. Please select a number between 1 and " + (courses.size() + 1));
+            return;
+        }
+
+        if (choice == courses.size() + 1) {
+            System.out.println("Going back to menu...");
+            return;
+        }
+
+        String selectedCourse = courses.get(choice - 1);
+        System.out.println("Selected course: " + selectedCourse);
+
+        gradeStudent(staff, section, scanner, selectedCourse, allSections);
+    }
+
+    private static void gradeStudent(TeachingStaff staff, Section section, Scanner scanner, String selectedCourse, ArrayList<Section> allSections) 
+            throws IOException, FileNotFoundException {
+        ArrayList<Student> students = section.getStudents();
+
+        if (students.isEmpty()) {
+            System.out.println("No students in this section.");
+            return;
+        }
+        System.out.println("Students in " + section.getSectionName() + ":");
+        for (int i = 0; i < students.size(); i++) {
+            Student student = students.get(i);
+            System.out.println((i + 1) + ". " + student.getFirstname() + " " + student.getSurname());
+        }
+        System.out.println((students.size() + 1) + ". Back to Menu");
+        System.out.print("Enter student name (Firstname Surname) or select number (1-" + (students.size() + 1) + "): ");
+
+        String input = scanner.nextLine().trim();
+        Student selectedStudent = null;
+
+        String[] nameParts = input.trim().split("\\s+");
+
+        if (input.matches("\\d+")) {
+            int choice = Integer.parseInt(input);
+            if (choice == students.size() + 1) return;
+            if (choice < 1 || choice > students.size()) {
+                System.out.println("Invalid number. Please select a number between 1 and " + (students.size() + 1));
+                return;
+            }
+            selectedStudent = students.get(choice - 1);
+        } else if (nameParts.length >= 2) {
+            String firstname = nameParts[0];
+            String surname = nameParts[nameParts.length - 1];
+            for (Student stud : students) {
+                if (stud.getFirstname().equalsIgnoreCase(firstname) && stud.getSurname().equalsIgnoreCase(surname)) {
+                    selectedStudent = stud;
+                    break;
+                }
+            }
+            if (selectedStudent == null) {
+                System.out.println("Student not found.");
+                return;
+            }
+        } else {
+            System.out.println("Please enter a number or both first and last name.");
+            return;
+        }
+
+        System.out.println("Student courses: " + Arrays.toString(selectedStudent.getCourses()));   // just to check if the student is enrolled in the course
+
+        String[] studentCourses = selectedStudent.getCourses();
+        int courseIndex = -1;
+        String courseSelected = selectedCourse.trim().replaceAll("\\s+", " ").toLowerCase();   
+        for (int i = 0; i < studentCourses.length; i++) {
+            String studentCourse = studentCourses[i].trim().replaceAll("\\s+", " ").toLowerCase();
+            if (studentCourse.equals(courseSelected)) {
+                courseIndex = i;
+                break;
+            }
+        }
+
+        if (courseIndex == -1) {
+            System.out.println("Student is not enrolled in " + selectedCourse + ".");
+            return;
+        }
+
+        // Input grade
+        System.out.print("Enter numerical grade for " + selectedStudent.getFirstname() + " " + selectedStudent.getSurname() + " in " + selectedCourse + " (0-100): ");
+        String gradeInput = scanner.nextLine().trim();
+        if (!gradeInput.matches("\\d+(\\.\\d+)?")) {
+            System.out.println("Invalid grade format. Please enter a number (e.g., 85 or 85.5).");
+            return;
+        }
+        double grade = Double.parseDouble(gradeInput);
+        if (grade < 0 || grade > 100) {
+            System.out.println("Grade must be between 0 and 100.");
+            return;
+        }
+
+        // Convert numerical grade to letter grade
+        String letterGrade = convertToLetterGrade(grade);
+
+        // Update student's grades
+        double[] numGrades = selectedStudent.getNumGrades();
+        String[] letterGrades = selectedStudent.getLetterGrades();
+        numGrades[courseIndex] = grade;
+        letterGrades[courseIndex] = letterGrade;
+        selectedStudent.setNumGrades(numGrades);
+        selectedStudent.setLetterGrades(letterGrades);
+
+        System.out.println("Student: " + selectedStudent.getFirstname() + " " + selectedStudent.getSurname());
+        System.out.println("numGrades: " + Arrays.toString(selectedStudent.getNumGrades()));
+
+        // Save the updated section to file
+        writeSectionToFile(section);
+        System.out.println("After saving:" + section.getSectionName());
+
+        System.out.println("Grade assigned: " + letterGrade + " (" + grade + ") for " + selectedStudent.getFirstname() + " " + selectedStudent.getSurname() + " in " + selectedCourse);
+    }
+
+    private static String convertToLetterGrade(double grade) {
+        if (grade >= 92) return "A";
+        if (grade >= 88) return "B+";
+        if (grade >= 84) return "B";
+        if (grade >= 80) return "C+";   //I forgot the equivalent of the letter grades
+        if (grade >= 76) return "C";
+        if (grade >= 72) return "D";
+        else return "F";
+    }
 
     private static void writeAdminToAdminRecords(Admin currentAdmin) throws IOException {
         FileWriter adminWriter = new FileWriter("adminRecords/" + currentAdmin.getAdminFileName());

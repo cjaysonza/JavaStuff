@@ -24,8 +24,7 @@ public class Utility {
     public static double[] stringArrayToDoubleArray(String[] stringArray) {
         double[] doubleArray = new double[stringArray.length];
         for (int i = 0; i < stringArray.length; i++) {
-            // doubleArray[i] = Double.parseDouble(stringArray[i].trim());
-            doubleArray[i] = 0;
+            doubleArray[i] = Double.parseDouble(stringArray[i].trim());
         }
         return doubleArray;
     }
