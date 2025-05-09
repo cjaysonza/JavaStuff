@@ -20,6 +20,9 @@ public class StudentGradingSystem {
         Admin currentAdmin = Admin.readAdminFromFile();
         writeAdminToAdminRecords(currentAdmin);
 
+        readTeachingStaffFromFiles(allTeachingStaff);
+        teachingStaffInput(allTeachingStaff, allSections);
+
         // // This is the first time the system is run, so we need to seed the database
         // seedSectionsAndStudents(allSections);
         // seedTeachingStaff(allTeachingStaff);
@@ -79,7 +82,149 @@ public class StudentGradingSystem {
         
     }
 
+    private static void teachingStaffInput(ArrayList<TeachingStaff> allTeachingStaff, ArrayList<Section> allSections) throws FileNotFoundException, IOException{
+        Scanner scanner = new Scanner(System.in);
+        TeachingStaff currentStaff = null;
 
+        //login
+        while (currentStaff == null) {
+            System.out.println("Teaching Staff Login");
+            System.out.println("Staff ID: ");
+            String staffID = scanner.nextLine().trim();
+            System.out.println("Password: ");
+            String password = scanner.nextLine().trim();
+
+            currentStaff = null;
+            for (TeachingStaff staff : allTeachingStaff) {
+                if (staff.getStaffID().equals(staffID) && staff.getPassword().equals(password)) {
+                    currentStaff = staff;
+                    break;
+                }
+            }
+
+            if (currentStaff == null) {
+                System.out.println("Invalid Staff ID or Password. Please try again.");
+                return; // Exit or loop back to retry
+            }
+
+        }
+        System.out.println("Welcome, " + currentStaff.getFirstname() + " " + currentStaff.getSurname() + "!");
+
+        while (true) {
+            System.out.println("\n Teaching Staff Menu");
+            System.out.println("1. View Sections Handled");
+            System.out.println("2. View Courses Taught");
+            System.out.println("3. Exit");
+            System.out.println("Enter choice(1-3): ");
+
+            int choice = scanner.nextInt();
+
+            if(choice < 1 || choice > 3) {
+                System.out.println("Invalid choice. Please try again.");
+                continue;
+            }
+
+            switch (choice) {
+                case 1:
+                    selectSection(currentStaff, scanner);
+                    break;
+                case 2:
+                    selectCourse(currentStaff, scanner);
+                    break;
+                case 3:
+                    System.out.println("Logging out...");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void selectSection(TeachingStaff staff, Scanner scanner) {
+        ArrayList<String> sections = staff.getSectionsHandled();
+        if (sections.isEmpty()) {
+            System.out.println("No sections handled.");
+            return;
+        }
+
+        System.out.println("Sections Handled:");
+        for (int i = 0; i < sections.size(); i++) {
+            System.out.println((i + 1) + ". " + sections.get(i));
+        }
+        System.out.println("3. Back to Menu");
+        System.out.println("Select a section (1-" + sections.size() +"): ");
+        System.out.flush();
+
+        if (scanner.hasNextLine()) {
+            scanner.nextLine();
+        }
+
+        String input = scanner.nextLine().trim();
+        int choice;
+        if (input.matches("\\d+")) {
+            choice = Integer.parseInt(input);
+        } else {
+            System.out.println("Invalid input. Please enter a number.");
+            return;
+        }
+
+        if (choice < 1 || choice > sections.size() + 1) {
+            System.out.println("Invalid seciont number. Please select a number between 1 and " + sections.size());
+            return;
+        }
+
+        if (choice == sections.size() + 1) {
+            System.out.println("Going back to menu...");
+            return;
+        }
+
+        String selectedSection = sections.get(choice - 1);
+        System.out.println("Selected section: " + selectedSection);
+        //grading not yet implemented
+    }
+
+    private static void selectCourse(TeachingStaff staff, Scanner scanner) {
+        ArrayList<String> courses = staff.getCoursesTaught();
+        if (courses.isEmpty()) {
+            System.out.println("No courses taught.");
+            return;
+        }
+
+        System.out.println("Courses Taught:");
+        for (int i = 0; i < courses.size(); i++) {
+            System.out.println((i + 1) + ". " + courses.get(i));
+        }
+        System.out.println("3. Back to Menu");
+        System.out.println("Select a course (1-" + courses.size() + "): ");
+        
+
+        if (scanner.hasNextLine()) {
+            scanner.nextLine();
+        }
+
+        String input = scanner.nextLine().trim();
+        int choice;
+        if (input.matches("\\d+")) {
+            choice = Integer.parseInt(input);
+        } else {
+            System.out.println("Invalid input. Please enter a number.");
+            return;
+        }
+
+
+        if (choice < 1 || choice > courses.size() + 1) {
+            System.out.println("Invalid course number. Please select a number between 1 and " + courses.size());
+            return;
+        }
+
+        if (choice == courses.size() + 1) {
+            System.out.println("Going back to menu...");
+            return;
+            
+        }
+        String selectedCourse = courses.get(choice - 1);
+        System.out.println("Selected course: " + selectedCourse);
+    }
 
     private static void writeAdminToAdminRecords(Admin currentAdmin) throws IOException {
         FileWriter adminWriter = new FileWriter("adminRecords/" + currentAdmin.getAdminFileName());
