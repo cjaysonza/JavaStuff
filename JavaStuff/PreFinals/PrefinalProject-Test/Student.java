@@ -78,7 +78,11 @@ public class Student extends Person {
             letterGrades = Utility.parseArray(scan.next().trim());
             numGrades = Utility.parseDoubleArray(scan.next().trim());
         }
+        System.out.println("Student " + firstname + " " + surname);                             // for debugging
+        System.out.println("LetterGrades: " + Arrays.toString(letterGrades));                   //
+        System.out.println("NumGrades: " + Arrays.toString(numGrades));                 //      //
         scan.close();
+        
         return new Student(surname, firstname, studentID, major, courses, letterGrades, numGrades);
     }
 }
