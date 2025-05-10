@@ -22,7 +22,7 @@ public class StudentGradingSystem {
         Admin currentAdmin = Admin.readAdminFromFile();
         writeAdminToAdminRecords(currentAdmin);
 
-        // // This is the first time the system is run, so we need to seed the database
+        // This is the first time the system is run, so we need to seed the database
         // seedSectionsAndStudents(allSections);
         // seedTeachingStaff(allTeachingStaff);
 
@@ -37,10 +37,7 @@ public class StudentGradingSystem {
         int currentAcademicYear = getCurrentAcademicYear();
     
         // Read the current semester from a file. default: 1
-        int currentSemester = getCurrentSemester();
-    
-        // clearAllCurrentFolders();
-        System.out.println("Say Hi if everything is alright");
+        int currentSemester = getCurrentSemester();         
         
         // boolean isRunning = true;
         // while (isRunning) { 
@@ -155,70 +152,75 @@ public class StudentGradingSystem {
         // }
             // System.out.println(staff + "\n");
         }
+        allTeachingStaffScanner.close();
     }
     
     // Seed the teaching staff's data from a file in the masterDatabase directory
     // This is the first time the system is run, so we need to seed the database
     private static void seedTeachingStaff(ArrayList<TeachingStaff> allTeachingStaff) throws FileNotFoundException, IOException {
         File staffFile = new File("masterDatabase/teachingStaffDatabase.txt");
-        Scanner staffScanner = new Scanner(staffFile);
-        staffScanner.useDelimiter(",");
-        
-        // Ensure the directory exists
-        File staffDir = new File("allTeachingStaff");
-        if (!staffDir.exists()) {
-            staffDir.mkdir();
-        }
-
-        while (staffScanner.hasNextLine()) {
-            String line = staffScanner.nextLine().trim();
-
-            Scanner lineScanner = new Scanner(line);
-            lineScanner.useDelimiter(",");
+        try (Scanner staffScanner = new Scanner(staffFile)) {
+            staffScanner.useDelimiter(",");
             
-            if (line.equals("---")) {
-                break; // End of the file
+            // Ensure the directory exists
+            File staffDir = new File("allTeachingStaff");
+            if (!staffDir.exists()) {
+                staffDir.mkdir();
+            }
+
+            while (staffScanner.hasNextLine()) {
+                String line = staffScanner.nextLine().trim();
+
+                Scanner lineScanner = new Scanner(line);
+                lineScanner.useDelimiter(",");
+                
+                if (line.equals("---")) {
+                    break; // End of the file
+                }
+                
+                String surname = lineScanner.next().trim();
+                String firstname = lineScanner.next().trim();
+                String staffID = lineScanner.next().trim();
+                String password = lineScanner.next().trim();
+                String department = lineScanner.next().trim();
+                String sectionsStr = lineScanner.next().trim();
+                String coursesStr = lineScanner.next().trim();
+                String teachingRecord = lineScanner.hasNext() ? lineScanner.next().trim() : "-";
+
+                // NOTE: the following lines is different from Utility.praseArray()
+                sectionsStr = sectionsStr.replaceAll("\\[|\\]", "");
+                coursesStr = coursesStr.replaceAll("\\[|\\]", "");
+
+                ArrayList<String> sectionsHandled = new ArrayList<>(Arrays.asList(sectionsStr.split(";")));
+                ArrayList<String> coursesTaught = new ArrayList<>(Arrays.asList(coursesStr.split(";")));
+                
+                TeachingStaff newStaff = new TeachingStaff(surname, firstname, staffID, password, department,
+                sectionsHandled, coursesTaught, teachingRecord);
+                
+                allTeachingStaff.add(newStaff);
+                
+                // Create a custom filename per teaching staff
+                // staffID + "-" + surname 
+                String filename = newStaff.getStaffID() + "-" + newStaff.getSurname().replace(" ", "");
+                FileWriter staffWriter = new FileWriter("allTeachingStaff/" + filename + ".txt");
+                
+                // Write the staff's personal data
+                staffWriter.write("Name: " + firstname + " " + surname + "\n");
+                staffWriter.write("Staff ID: " + staffID + "\n");
+                staffWriter.write("Department: " + department + "\n");
+                staffWriter.write("Sections Handled: " + sectionsStr + "\n");
+                staffWriter.write("Courses Taught: " + coursesStr + "\n");
+                staffWriter.write("Teaching Record: " + teachingRecord + "\n");
+                
+                staffWriter.close();
+                lineScanner.close();
+                
             }
             
-            String surname = lineScanner.next().trim();
-            String firstname = lineScanner.next().trim();
-            String staffID = lineScanner.next().trim();
-            String password = lineScanner.next().trim();
-            String department = lineScanner.next().trim();
-            String sectionsStr = lineScanner.next().trim();
-            String coursesStr = lineScanner.next().trim();
-            String teachingRecord = lineScanner.hasNext() ? lineScanner.next().trim() : "-";
-
-            // NOTE: the following lines is different from Utility.praseArray()
-            sectionsStr = sectionsStr.replaceAll("\\[|\\]", "");
-            coursesStr = coursesStr.replaceAll("\\[|\\]", "");
-
-            ArrayList<String> sectionsHandled = new ArrayList<>(Arrays.asList(sectionsStr.split(";")));
-            ArrayList<String> coursesTaught = new ArrayList<>(Arrays.asList(coursesStr.split(";")));
-            
-            TeachingStaff newStaff = new TeachingStaff(surname, firstname, staffID, password, department,
-            sectionsHandled, coursesTaught, teachingRecord);
-            
-            allTeachingStaff.add(newStaff);
-            
-            // Create a custom filename per teaching staff
-            String filename = newStaff.getSurname().replace(" ", "") + "-" + newStaff.getStaffID();
-            FileWriter staffWriter = new FileWriter("allTeachingStaff/" + filename + ".txt");
-            
-            // Write the staff's personal data
-            staffWriter.write("Name: " + firstname + " " + surname + "\n");
-            staffWriter.write("Staff ID: " + staffID + "\n");
-            staffWriter.write("Department: " + department + "\n");
-            staffWriter.write("Sections Handled: " + sectionsStr + "\n");
-            staffWriter.write("Courses Taught: " + coursesStr + "\n");
-            staffWriter.write("Teaching Record: " + teachingRecord + "\n");
-            
-            staffWriter.close();
-            lineScanner.close();
-            
+            staffScanner.close();
         }
-        
-        staffScanner.close();
+        // Prints all teachers into a single file
+        writeTeachingStaffToFile(allTeachingStaff);
         
             //Uncomment the following lines to print all teaching staff
         // System.out.println("All Teaching Staff:");
@@ -228,9 +230,6 @@ public class StudentGradingSystem {
         // }
         // System.out.println(teachingStaff);
         // }
-        
-        // Prints all teachers into a single file
-        writeTeachingStaffToFile(allTeachingStaff);
     }
 
     // Seed the sections and students' data from a file in the masterDatabase directory
@@ -325,12 +324,12 @@ public class StudentGradingSystem {
     // ✅ Writes to 'allTeachingStaff/all-teaching-staff.txt'
     public static void writeTeachingStaffToFile(ArrayList<TeachingStaff> staffList) throws IOException {
         FileWriter writer = new FileWriter("allTeachingStaff/all-teaching-staff.txt");
-        File allTeachingStaffFile = new File("allTeachingStaff/all-teaching-staff.txt");
-        if (!allTeachingStaffFile.exists()) {
-            System.out.println("all-teaching-staff.txt does not exist yet");
-            allTeachingStaffFile.createNewFile();
-            System.out.println("all-teaching-staff.txt has been made");
-        }
+        // File allTeachingStaffFile = new File("allTeachingStaff/all-teaching-staff.txt");
+        // if (!allTeachingStaffFile.exists()) {
+        //     System.out.println("all-teaching-staff.txt does not exist yet");
+        //     allTeachingStaffFile.createNewFile();
+        //     System.out.println("all-teaching-staff.txt has been made");
+        // }
 
         for (TeachingStaff staff : staffList) {
             String line = staff.getSurname() + "," +
@@ -344,7 +343,7 @@ public class StudentGradingSystem {
             writer.write(line + "\n");
         }
         
-        writer.write("---\n");
+        writer.write("");
         writer.close();
     }
 
@@ -502,28 +501,36 @@ public class StudentGradingSystem {
         return allTeachingStaff;
     }
 
-    private static void clearAllCurrentFolders() throws FileNotFoundException, IOException{
+    private static void clearAllCurrentFolders() throws FileNotFoundException{
         // Deletes all content in allSections folder
         // String allTeachingStaffFile = "all-teaching-staff.txt";
         File sectionsFolder = new File("allSections");
         for (File file : sectionsFolder.listFiles()) {
+            System.out.println("Deleted File: " + file.getName());
             file.delete();
         }
         // Deletes all content in allTeachingStaff folder
         File teachingStaffFolder = new File("allTeachingStaff");
         for (File file : teachingStaffFolder.listFiles()) {
             file.delete();
+            System.out.println("Deleted File: " + file.getName());
+            // if (file.getName().equals("all-teaching-staff")) {
+            //     System.out.println("Found it");
+            //     file.delete();
+            // }
         }
-        File allTeachingStaffFile = new File("allTeachingStaff/all-teaching-staff.txt");
-        allTeachingStaffFile.delete();
+        // File allTeachingStaffFile = new File("allTeachingStaff/all-teaching-staff.txt");
+        // allTeachingStaffFile.delete();
         // Deletes all content in allSectionsGraded folder
         File sectionsGradedFolder = new File("allSectionsGraded");
         for (File file : sectionsGradedFolder.listFiles()) {
+            System.out.println("Deleted File: " + file.getName());
             file.delete();
         }
 
         System.out.println("all current folders have been deleted");
     }
+
 
     // ---------------------------------------------    MOST ADMIN FUNCTIONS    --------------------------------------------------------------------------
 
