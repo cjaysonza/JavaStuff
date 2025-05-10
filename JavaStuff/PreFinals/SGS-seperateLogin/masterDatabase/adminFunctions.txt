@@ -1,0 +1,23 @@
+Administrator functions and responsibilities.
+
+After certain actions of teaching staff (mainly grading their students), the administrator of the program then needs to do the following:
+
+1.| Press 3. to Save all the data of allSections, allSectionsGraded, and allTeachingStaff of the current semester to the "Records" folder.
+
+2.| Press 4. After pushing this data, you may push the current Semester to the next semester
+    NOTE: Pushing to the next semester after "2" will return to 1. You have to manually push to the next academic year.
+
+3.| Press 8? After pushing to the next semester, It is best practice to push the school year to the next academic year.
+
+4.| Press 5. Proceed to then clearing current data of allSectionss and allTeachingStaff that stored in the files.
+             Since everytime the program starts, the data is read from these files.
+
+5.| Press 6? Optionally, if you are still running the program and dont plan on exiting,
+             you may also clear the current contents of allSections and allTeachingStaff that is stored in memory.
+             NOTE: This is for modularity purposes only. In my way of doing things, after clearing the files, you exit the program, rerun it,
+                   then login as the admin, and seed the new data, then exit the program to then read the data from the files since the program
+                   naturally does that everytime upon running.
+
+6.| Press 7. After saving the data, pushing to the next semester/school year, and clearning out the data of the previous grading,
+             pressing 7 will then "seed" whatever data is in the masterDatabase directory to the current program.
+             NOTE: Dont forget to edit the contents of studentDatabase.txt and teachingStaffDatabase.txt every new semester, manually.

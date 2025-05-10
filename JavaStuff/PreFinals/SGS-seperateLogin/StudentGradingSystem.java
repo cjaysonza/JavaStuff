@@ -3,8 +3,8 @@
  * This is a simple Java program that serves as a starting point for a student grading system.
  * @author: csonza, rmol, vgba
  * 
- * @Version-Update: 0.1
- * 
+ * @Mark-Update: 0.2
+ * @Version-Update: 0.2
  */
 
 import java.io.*;
@@ -22,6 +22,10 @@ public class StudentGradingSystem {
         Admin currentAdmin = Admin.readAdminFromFile();
         writeAdminToAdminRecords(currentAdmin);
 
+        // // This is the first time the system is run, so we need to seed the database
+        // seedSectionsAndStudents(allSections);
+        // seedTeachingStaff(allTeachingStaff);
+
         // This is not the first time the system is run, so we need to read the database
         readAllSectionsFromFiles(allSections);
         readTeachingStaffFromFiles(allTeachingStaff);
@@ -34,133 +38,46 @@ public class StudentGradingSystem {
     
         // Read the current semester from a file. default: 1
         int currentSemester = getCurrentSemester();
-
-        // System.out.println("" + allSections);
-        // clearSection(allSections);
-        // System.out.println( ""+ allSections);
+    
+        // clearAllCurrentFolders();
+        System.out.println("Say Hi if everything is alright");
         
-        // Uncomment the following lines to run the program without user input
-        // for (TeachingStaff staff : allTeachingStaff) {
-        //     System.out.println(staff.getSurname() + " " + staff.getFirstname() + "\n" + staff.getStaffID() + "\n" + staff.getDepartment()
-        //     + "\n" + Arrays.toString(staff.getSectionsHandled().toArray()) + "\n" + Arrays.toString(staff.getCoursesTaught().toArray())
-        //     + "\n" + staff.getTeachingRecord());
-            
-        //     System.out.println("--------------------------------------------------\n\n\n");
+        // boolean isRunning = true;
+        // while (isRunning) { 
+
+        //     // START MENU
+        //     switch (userInput) {
+        //         case "1":
+        //             // Administrator login
+        //             // loginResult = Displays.displayLoginMenu(currentAdmin, allTeachingStaff); 
+        //             isAdminLoggedIn = Displays.displayLoginMenuAdmin(currentAdmin);
+        //             if (isAdminLoggedIn != true) {
+        //                 System.out.println("returning to start menu");
+        //             } else if (isAdminLoggedIn == true) {
+        //                 displayAdminMenu(currentAdmin, allSections, allTeachingStaff);
+        //             }
+        //             break;
+        //         case "2":
+        //             // Login as Teaching Staff
+        //             // loginResult = Displays.displayLoginMenu(currentAdmin, allTeachingStaff); 
+        //             break;
+        //         case "0":
+        //             // Exit the program
+        //             Displays.displayExitMessage();
+        //             System.out.println("\nExiting the program...");
+        //             isRunning = false;
+        //             break;
+        //         default:
+        //             System.out.println("\nInvalid input. Please try again.");
+        //     }
         // }
-        
-        System.out.println(allSections + "\n\n\n");
-        clearCurrentSections(allSections);
-        System.out.println(allSections + "\n\n\n");
-        seedSectionsAndStudents(allSections);
-        System.out.println(allSections + "\n\n\n");
 
-
-     
-        boolean isRunning = true;
-        while (isRunning) { 
-
-            // Remnant code of mk.1 v0.1
-            // Displays.LoginMenuResult loginResult = null;
-
-            System.out.println("\n\n\n"); // For formatting purposes when running the program. So that there is space between the console and the menu.
-            String userInput = Displays.displayStartMenu(schoolName, currentAcademicYear, currentSemester);
-
-            boolean isAdminLoggedIn = false;
-            boolean isTeachingStaffLoggedIn = false;
-
-            // START MENU
-            switch (userInput) {
-                case "1":
-                    // Administrator login
-                    // loginResult = Displays.displayLoginMenu(currentAdmin, allTeachingStaff); 
-                    isAdminLoggedIn = Displays.displayLoginMenuAdmin(currentAdmin);
-
-                    break;
-                case "2":
-                    // Login as Teaching Staff
-                    // loginResult = Displays.displayLoginMenu(currentAdmin, allTeachingStaff); 
-                    break;
-                case "3":
-                    // Exit the program
-                    System.out.println("\nExiting the program...");
-                    isRunning = false;
-                    break;
-                default:
-                    System.out.println("\nInvalid input. Please try again.");
-            }
-        }
-
-        //     // Remnant code of mk.1 v0.1
-        //     // switch (loginResult.result) {
-        //     //     case ADMIN:
-        //     //         // Admin login
-        //     //         // System.out.println("\nWelcome, " + currentAdmin.getFirstname() + " " + currentAdmin.getSurname() + "!");
-        //     //         // TODO Make the admin menu in Display.java
-        //     //         break;
-        //     //     case TEACHING_STAFF:
-        //     //         // Teaching staff login
-        //     //         Displays.displayTeachingStaffMenu(loginResult.teachingStaff);
-        //     //         break;
-        //     //     case PREV:
-        //     //         // Go back to the start menu
-        //     //         break;
-        //     //     case INVALID:
-        //     //         // Invalid login
-        //     //         System.out.println("\nInvalid login. Please try again.");
-        //     //         break;
-        //     // }
-
-            
-        //     // if 
-
-        // }   
+// END OF START MENU
 
         // // This is the first time the system is run, so we need to seed the database
         // seedSectionsAndStudents(allSections);
         // seedTeachingStaff(allTeachingStaff);
         
-        // Temporary code to test the system
-        // while (true) {
-        //     System.out.println("Welcome to the Student Grading System!");
-        //     System.out.println("1. Seed Sections and Students");
-        //     System.out.println("2. Seed Teaching Staff");
-        //     System.out.println("3. Read Teaching Staff from Files");
-        //     System.out.println("4. Read All Sections from Files");
-        //     System.out.println("5. Write Section to File");
-        //     System.out.println("6. Write Teaching Staff to File");
-        //     System.out.println("7. Print First Student of Every Section");
-        //     System.out.println("8. Exit");
-        //     Scanner scanner = new Scanner(System.in);
-        //     int choice = scanner.nextInt();
-        //     switch (choice) {
-        //         case 1:
-        //             seedSectionsAndStudents(allSections);
-        //             break;
-        //         case 2:
-        //             seedTeachingStaff(allTeachingStaff);
-        //             break;
-        //         case 3:
-        //             readTeachingStaffFromFiles(allTeachingStaff);
-        //             break;
-        //         case 4:
-        //             readAllSectionsFromFiles(allSections);
-        //             break;
-        //         case 5:
-        //             writeSectionToFile(allSections.get(0)); // Example: write the first section
-        //             break;
-        //         case 6:
-        //             writeTeachingStaffToFile(allTeachingStaff);
-        //             break;
-        //         case 7:
-        //             printFirstStudentOfEverySection(allSections);
-        //             break;
-        //         case 8:
-        //             System.exit(0);
-        //         default:
-        //             System.out.println("Invalid choice. Please try again.");
-        //     }
-        // }
-
         // Uncomment the following lines to run the program without user input
         // printFirstStudentOfEverySection(allSections);
         
@@ -209,7 +126,7 @@ public class StudentGradingSystem {
     }
     
     // Read the teaching staff's data from a file in the allTeachingStaff directory
-    private static void readTeachingStaffFromFiles(ArrayList<TeachingStaff> allTeachingStaff) throws FileNotFoundException {
+    private static void readTeachingStaffFromFiles(ArrayList<TeachingStaff> allTeachingStaff) throws IOException {
         File allTeachingStaffFile = new File("allTeachingStaff/all-teaching-staff.txt");
         if (!allTeachingStaffFile.exists()) {
             System.out.println("all-teaching-staff.txt file not found.");
@@ -384,7 +301,7 @@ public class StudentGradingSystem {
             section.loadFromFile();
             allSections.add(section);
         }
-        
+        allSectionsScanner.close();
         // System.out.println("All Sections and Students:");
         // for (Section section : allSections) {
             // System.out.println(section);
@@ -408,6 +325,13 @@ public class StudentGradingSystem {
     // ✅ Writes to 'allTeachingStaff/all-teaching-staff.txt'
     public static void writeTeachingStaffToFile(ArrayList<TeachingStaff> staffList) throws IOException {
         FileWriter writer = new FileWriter("allTeachingStaff/all-teaching-staff.txt");
+        File allTeachingStaffFile = new File("allTeachingStaff/all-teaching-staff.txt");
+        if (!allTeachingStaffFile.exists()) {
+            System.out.println("all-teaching-staff.txt does not exist yet");
+            allTeachingStaffFile.createNewFile();
+            System.out.println("all-teaching-staff.txt has been made");
+        }
+
         for (TeachingStaff staff : staffList) {
             String line = staff.getSurname() + "," +
             staff.getFirstname() + "," +
@@ -426,7 +350,7 @@ public class StudentGradingSystem {
 
     // Write the admin's data to a file in the adminRecords directory
     // This is the first time the system is run, so we need to seed the database
-    private static void writeAdminToAdminRecords(Admin currentAdmin) throws IOException {
+    private static void writeAdminToAdminRecords(Admin currentAdmin) throws FileNotFoundException, IOException {
         FileWriter adminWriter = new FileWriter("adminRecords/" + currentAdmin.getAdminFileName());
             adminWriter.write("Name: " + currentAdmin.getFirstname() + " " + currentAdmin.getSurname() + "\n");
             adminWriter.write("Admin ID: " + currentAdmin.getAdminID() + "\n");
@@ -438,11 +362,11 @@ public class StudentGradingSystem {
     
 
     // ---------------------------------------------    MOST ADMIN FUNCTIONS    --------------------------------------------------------------------------
-
-    public static void displayAdminMenu(Admin currentAdmin) throws FileNotFoundException, IOException {
+    
+    public static void displayAdminMenu(Admin currentAdmin, ArrayList<Section> allSections, ArrayList<TeachingStaff> allTeachingStaff) throws FileNotFoundException, IOException {
         Scanner scanner = new Scanner(System.in);
-        int adminInput = scanner.nextInt();
-        while(adminInput != 0) {
+        boolean loggedIn = true;
+        while(loggedIn) {
             System.out.println(Displays.borderEqual);
             System.out.println("Admin Menu");
             System.out.println("Current Admin Logged in: " + currentAdmin.getFirstname() + " " + currentAdmin.getSurname());
@@ -457,37 +381,58 @@ public class StudentGradingSystem {
             System.out.println("7. Seed New Information of all Teaching Staff, and all Sections");
             System.out.println("8. Push to next Academic Year");
             System.out.println("0. Logout as Admin");
-        
-            System.out.println("\nInput Selected Option: ");
-            adminInput = scanner.nextInt();
-
+            
+            System.out.print("\nInput Selected Option: ");
+            int adminInput = Integer.parseInt(scanner.next().substring(0,1));
+            // adminInput = scanner.nextInt();
+            // Takes userInput that must be a number. Parses it from String just incase
+            
             switch (adminInput) {
                 case 1:
                     // View current Admin Records
                     viewAdminRecords(currentAdmin);
+                    Displays.confirmNextPage();
                     break;
                 case 2:
                     // View Admin Functions and Responsibilities
                     viewAdminFunctionsAndResponsibilities();
+                    Displays.confirmNextPage();
                     break;
                 case 3: 
                     // Save current Semester (Sections, Students, and Teaching Staff)
                     // TODO functionality
                     System.out.println("Saving current Semester's data...");
+                    Displays.confirmNextPage();
                     break;
                 case 4:
                     // Push program to next Semester
                     pushSemester(new File("masterDatabase/currentSemesterData.txt"));
+                    Displays.confirmNextPage();
                     break;
                 case 5:
                     // Clear the current files within the allSections, allTeachingStaff, and allStudents directories
                     //TODO atm
                     System.out.println("Clearning current allSections, allTeachingStaff, and allStudents files...");
+                    Displays.confirmNextPage();
                     break;
                 case 6: 
-                    // Seed new Infomation of allTeachingStaff, and allSections
+                    // Clear current allSection and allTeachingStaff in memory (Do this only while program is running)
+                    // This clears the current allSections and allTeachingStaff in memory
+                    clearCurrentSections(allSections);
+                    clearCurrentTeachingStaffs(allTeachingStaff);
+                    System.out.print("Current allSections and allTeachingStaff has been cleered...");
+                    Displays.confirmNextPage();
 
+                    break;
+                case 7:
+                    System.out.println("TODO");
+                    Displays.confirmNextPage();
+                break;
 
+                case 0:
+                    System.out.println("Logging out. Returning to Start Menu");
+                    loggedIn = false;
+                break;
 
             }
         }
@@ -555,6 +500,29 @@ public class StudentGradingSystem {
     private static ArrayList<TeachingStaff> clearCurrentTeachingStaffs(ArrayList<TeachingStaff> allTeachingStaff) {
         allTeachingStaff.clear();
         return allTeachingStaff;
+    }
+
+    private static void clearAllCurrentFolders() throws FileNotFoundException, IOException{
+        // Deletes all content in allSections folder
+        // String allTeachingStaffFile = "all-teaching-staff.txt";
+        File sectionsFolder = new File("allSections");
+        for (File file : sectionsFolder.listFiles()) {
+            file.delete();
+        }
+        // Deletes all content in allTeachingStaff folder
+        File teachingStaffFolder = new File("allTeachingStaff");
+        for (File file : teachingStaffFolder.listFiles()) {
+            file.delete();
+        }
+        File allTeachingStaffFile = new File("allTeachingStaff/all-teaching-staff.txt");
+        allTeachingStaffFile.delete();
+        // Deletes all content in allSectionsGraded folder
+        File sectionsGradedFolder = new File("allSectionsGraded");
+        for (File file : sectionsGradedFolder.listFiles()) {
+            file.delete();
+        }
+
+        System.out.println("all current folders have been deleted");
     }
 
     // ---------------------------------------------    MOST ADMIN FUNCTIONS    --------------------------------------------------------------------------

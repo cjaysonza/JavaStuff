@@ -25,8 +25,8 @@ public class Displays {
         System.out.println("Welcome to the University Management System");
         System.out.println("1. Login as Administrator");        
         System.out.println("2. Login as Teaching Staff");
-        System.out.println("3. Exit Program");
-        System.out.print("\nPlease select an option: ");
+        System.out.println("0. Exit Program");
+        System.out.print("\nPlease select an option [INT]: ");
         String userInput = scanner.nextLine();
         // scanner.close();
         return userInput; 
@@ -114,7 +114,7 @@ public class Displays {
 
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
-        scanner.close();
+        // scanner.close();
 
         // Check if the username is in the admin database
         if (username.equals((admin.getFirstname() + " " + admin.getSurname())) && password.equals(admin.getPassword())) {
@@ -191,7 +191,26 @@ public class Displays {
 
         }
 
-        // public static 
+        // This is a confirmation page to ensure that the user wants to proceed to the next screen
+    public static boolean confirmNextPage() {
+            Scanner confirmInput = new Scanner(System.in);
+            while (true) { 
+                System.out.println("\n");
+                System.out.println("Proceed with Next Page: ");
+                System.out.println("[Y] Yes");
+                System.out.print(":> ");
+                String confirm = confirmInput.nextLine();
+                System.out.println("\n");
+
+                if (confirm.equalsIgnoreCase("y") || confirm.equalsIgnoreCase("yes")) {
+                    return true;
+                } else {
+                    System.out.println("Invalid Input, Please Try again");
+                    System.out.println("\n");
+
+                }
+            }
+        }
 
 
 }

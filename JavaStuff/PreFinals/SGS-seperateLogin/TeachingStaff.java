@@ -72,13 +72,13 @@ public class TeachingStaff extends Person {
         this.teachingRecord = teachingRecord;
     }
 
-    // @Override
-    // public String toString() {
-    //     return String.format(
-    //         "Teaching Staff: %s, %s\nStaff ID: %s\nDepartment: %s\nSections Handled: %s\nCourses Taught: %s\nTeaching Record: %s",
-    //         getSurname(), getFirstname(), staffID, department, sectionsHandled, coursesTaught, teachingRecord
-    //     );
-    // }
+    @Override
+    public String toString() {
+        return String.format(
+            "Teaching Staff: %s, %s\nStaff ID: %s\nDepartment: %s\nSections Handled: %s\nCourses Taught: %s\nTeaching Record: %s",
+            getSurname(), getFirstname(), staffID, department, sectionsHandled, coursesTaught, teachingRecord
+        );
+    }
 
     public static TeachingStaff fromString(String line) {
         if (line.equals("---")) {
