@@ -1,5 +1,4 @@
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /*
@@ -10,21 +9,26 @@ import java.util.Scanner;
  */
 public class Displays {
     
+    // Borders
+    public static String border = "--------------------------------------------------";
     public static String borderDash = "--------------------------------------------------";
     public static String borderEqual = "==================================================";
 
 
     // Start Menu
-    public static String displayStartMenu(String schoolName, int currentAcademicYear) {        
+    public static String displayStartMenu(String schoolName, int currentAcademicYear, int currentSemester) {        
         Scanner scanner = new Scanner(System.in);
         System.out.println(borderEqual + borderEqual);
         System.out.println(schoolName + "\nAcademic Year: " + currentAcademicYear + "-" + (currentAcademicYear + 1));
+        System.out.println("Semester: " + currentSemester);
         System.out.println(borderEqual + borderEqual);
         System.out.println("Welcome to the University Management System");
-        System.out.println("1. Login as Teaching Staff");
-        System.out.println("2. Exit");
+        System.out.println("1. Login as Administrator");        
+        System.out.println("2. Login as Teaching Staff");
+        System.out.println("3. Exit Program");
         System.out.print("\nPlease select an option: ");
         String userInput = scanner.nextLine();
+        // scanner.close();
         return userInput; 
     }
 
@@ -34,65 +38,95 @@ public class Displays {
         System.out.println(borderEqual + borderEqual);
     }
 
+            // Remnant code of mk.1 v0.1
     // Class within a Class. This is used to return multiple values from the login menu. 
     // This is just a workaround for not being able to return multiple values from a method in Java.
-    static class LoginMenuResult {
-        public enum LoginResult {
-            ADMIN, TEACHING_STAFF, PREV, INVALID
-        }
-        public LoginResult result;
-        public TeachingStaff teachingStaff; // Only used if result is 1
+    // static class LoginMenuResult {
+    //     public enum LoginResult {
+    //         ADMIN, TEACHING_STAFF, PREV, INVALID
+    //     }
+    //     public LoginResult result;
+    //     public TeachingStaff teachingStaff; // Only used if result is 1
+    //     public LoginMenuResult(LoginResult result) {
+    //         this.result = result;
+    //         this.teachingStaff = null;
+    //     }
+    //     public LoginMenuResult(TeachingStaff teachingStaff) {
+    //         this.result = LoginResult.TEACHING_STAFF;
+    //         this.teachingStaff = teachingStaff;
+    //     }
+    // }
 
-        public LoginMenuResult(LoginResult result) {
-            this.result = result;
-            this.teachingStaff = null;
-        }
-
-        public LoginMenuResult(TeachingStaff teachingStaff) {
-            this.result = LoginResult.TEACHING_STAFF;
-            this.teachingStaff = teachingStaff;
-        }
-    }
-
+            // Remnant code of mk.1 v0.1
     // Login Menu
-    public static LoginMenuResult displayLoginMenu(Admin admin, ArrayList<TeachingStaff> teachingStaff) {
+    // public static LoginMenuResult displayLoginMenu(Admin admin, ArrayList<TeachingStaff> teachingStaff) {
+    //     Scanner scanner = new Scanner(System.in);
+    //     System.out.println(borderEqual + borderEqual);
+    //     System.out.println("Login Menu");
+    //     System.out.println("Input 'prev' to return to the start menu.");
+    //     System.out.println(borderEqual + borderEqual);
+    //     System.out.print("Enter your username: ");
+    //     String username = scanner.nextLine();
+    //     System.out.print("Enter your password: ");
+    //     String password = scanner.nextLine();
+    //     scanner.close();
+        
+    //     // Check if the username is in the admin database
+    //     if (username.equals((admin.getFirstname() + " " + admin.getSurname())) && password.equals(admin.getPassword())) {
+    //         System.out.println("Logged in as: Administrator!");
+    //         return new LoginMenuResult(LoginMenuResult.LoginResult.ADMIN);
+    //     }
+
+    //     // Check if the username is in the teaching staff database
+    //     for (TeachingStaff staff : teachingStaff) {
+    //         if (username.equals(staff.getFirstname() + " " + staff.getSurname()) && password.equals(staff.getPassword())) {
+    //             System.out.println("Logged in as: Teaching Staff!");
+    //             return new LoginMenuResult(staff);
+    //         }
+    //     }
+
+    //     // Check if user just mispressed and wants to return to the start menu
+    //     if (username.equals("prev") || password.equals("prev")) {
+    //         System.out.println("returning to the start menu...");
+    //         return new LoginMenuResult(LoginMenuResult.LoginResult.PREV);
+    //     }
+
+    //     // If no match is found, return a value to trigger an error message
+    //     System.out.println("Invalid username or password. Please try again.");
+    //     return new LoginMenuResult(LoginMenuResult.LoginResult.INVALID);
+
+    // }
+
+    public static boolean displayLoginMenuAdmin(Admin admin) {
         Scanner scanner = new Scanner(System.in);
         System.out.println(borderEqual + borderEqual);
-        System.out.println("Login Menu");
-        System.out.println("Input 'prev' to return to the start menu.");
+        System.out.println("Administrator Login Menu");
+        System.out.println("Input \"prev\" in the username to return to the start menu.");
         System.out.println(borderEqual + borderEqual);
-
         System.out.print("Enter your username: ");
         String username = scanner.nextLine();
+        
+        // Check if user just mispressed and wants to return to the start menu
+        if (username.equalsIgnoreCase("prev")) {
+            System.out.println("returning to the start menu...");
+            return false;
+        }
+
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
         scanner.close();
-        
+
         // Check if the username is in the admin database
         if (username.equals((admin.getFirstname() + " " + admin.getSurname())) && password.equals(admin.getPassword())) {
             System.out.println("Logged in as: Administrator!");
-            return new LoginMenuResult(LoginMenuResult.LoginResult.ADMIN);
-        }
-
-        // Check if the username is in the teaching staff database
-        for (TeachingStaff staff : teachingStaff) {
-            if (username.equals(staff.getFirstname() + " " + staff.getSurname()) && password.equals(staff.getPassword())) {
-                System.out.println("Logged in as: Teaching Staff!");
-                return new LoginMenuResult(staff);
-            }
-        }
-
-        // Check if user just mispressed and wants to return to the start menu
-        if (username.equals("prev") || password.equals("prev")) {
-            System.out.println("returning to the start menu...");
-            return new LoginMenuResult(LoginMenuResult.LoginResult.PREV);
+            return true;
         }
 
         // If no match is found, return a value to trigger an error message
         System.out.println("Invalid username or password. Please try again.");
-        return new LoginMenuResult(LoginMenuResult.LoginResult.INVALID);
-
+        return false;
     }
+
 
 
     // IF a teaching staff member is logged in, this method will be used to display their menu.
