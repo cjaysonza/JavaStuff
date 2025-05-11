@@ -7,3 +7,8 @@ this version of the program will make it so that the in the "Displays.displaySta
 
 This is to make it so that there is less confusion on the programmers POV on who logs in and what functionalities they have access they can do.
 @csonza 05/10/2025-08:34:AM
+
+
+v0.3
+Finally managed to make the entire Admin fully functional :happy-face-with-teart-eyes:. TeachingStaff is all that is left
+@csonza 05/12/2025-02:01:PM

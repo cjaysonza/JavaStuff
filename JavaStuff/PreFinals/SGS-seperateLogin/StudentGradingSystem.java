@@ -4,7 +4,7 @@
  * @author: csonza, rmol, vgba
  * 
  * @Mark-Update: 0.2
- * @Version-Update: 0.2
+ * @Version-Update: 0.3
  */
 
 import java.io.*;
@@ -27,47 +27,51 @@ public class StudentGradingSystem {
         // seedTeachingStaff(allTeachingStaff);
 
         // This is not the first time the system is run, so we need to read the database
+        // seedSectionsAndStudents(allSections);
+        // seedTeachingStaff(allTeachingStaff);
         readAllSectionsFromFiles(allSections);
         readTeachingStaffFromFiles(allTeachingStaff);
         
-        String schoolName = "Ateneo de Malayan International State Colleges of the Philippines";
-        // AdMISCotP, Temporary name for the school
+        String schoolName = "University of Advance Studies, Training, Research, and Academia";
+        // Now: University of Advance Studies, Training, Research, and Academia (U-ASTRA) 
         
-        // Read the current academic year from a file. default: 2024
-        int currentAcademicYear = getCurrentAcademicYear();
-    
-        // Read the current semester from a file. default: 1
-        int currentSemester = getCurrentSemester();         
+        boolean isRunning = true;
+        while (isRunning) { 
+            // Read the current academic year from a file. default: 2024
+            int currentAcademicYear = getCurrentAcademicYear();
         
-        // boolean isRunning = true;
-        // while (isRunning) { 
+            // Read the current semester from a file. default: 1
+            int currentSemester = getCurrentSemester();   
 
-        //     // START MENU
-        //     switch (userInput) {
-        //         case "1":
-        //             // Administrator login
-        //             // loginResult = Displays.displayLoginMenu(currentAdmin, allTeachingStaff); 
-        //             isAdminLoggedIn = Displays.displayLoginMenuAdmin(currentAdmin);
-        //             if (isAdminLoggedIn != true) {
-        //                 System.out.println("returning to start menu");
-        //             } else if (isAdminLoggedIn == true) {
-        //                 displayAdminMenu(currentAdmin, allSections, allTeachingStaff);
-        //             }
-        //             break;
-        //         case "2":
-        //             // Login as Teaching Staff
-        //             // loginResult = Displays.displayLoginMenu(currentAdmin, allTeachingStaff); 
-        //             break;
-        //         case "0":
-        //             // Exit the program
-        //             Displays.displayExitMessage();
-        //             System.out.println("\nExiting the program...");
-        //             isRunning = false;
-        //             break;
-        //         default:
-        //             System.out.println("\nInvalid input. Please try again.");
-        //     }
-        // }
+            boolean isAdminLoggedIn = false;
+            String userInput = Displays.displayStartMenu(schoolName, currentAcademicYear, currentSemester);
+            // START MENU
+            switch (userInput) {
+                case "1":
+                    // Administrator login
+                    // loginResult = Displays.displayLoginMenu(currentAdmin, allTeachingStaff); 
+                    isAdminLoggedIn = Displays.displayLoginMenuAdmin(currentAdmin);
+                    if (isAdminLoggedIn != true) {
+                        System.out.println("returning to start menu");
+                    } else if (isAdminLoggedIn == true) {
+                        displayAdminMenu(currentAdmin, allSections, allTeachingStaff);
+                    }
+                    break;
+                case "2":
+                    // Login as Teaching Staff
+                    // loginResult = Displays.displayLoginMenu(currentAdmin, allTeachingStaff); 
+                    System.out.println("TODO");
+                    break;
+                case "0":
+                    // Exit the program
+                    Displays.displayExitMessage();
+                    System.out.println("\nExiting the program...");
+                    isRunning = false;
+                    break;
+                default:
+                    System.out.println("\nInvalid input. Please try again.");
+            }
+        }
 
 // END OF START MENU
 
@@ -256,7 +260,7 @@ public class StudentGradingSystem {
                     newSection.addStudent(s);
                 }
                 allSections.add(newSection);
-                System.out.println(newSection + "\n\n\n");
+                System.out.println(newSection + "\n");
 
                 writeSectionToFile(newSection);
                 continue;
@@ -366,9 +370,13 @@ public class StudentGradingSystem {
         Scanner scanner = new Scanner(System.in);
         boolean loggedIn = true;
         while(loggedIn) {
+            int acadYear = getCurrentAcademicYear();
+            int semester = getCurrentSemester();
+            String currentData = String.format("Acad.Year: %d-%d\t\tSemester: %d", acadYear, acadYear + 1, semester);
             System.out.println(Displays.borderEqual);
             System.out.println("Admin Menu");
             System.out.println("Current Admin Logged in: " + currentAdmin.getFirstname() + " " + currentAdmin.getSurname());
+            System.out.println(currentData);
             System.out.println(Displays.borderEqual);
             System.out.println("NOTE: User Input is type [INT]");
             System.out.println("1. View current Admin Records");
@@ -377,7 +385,7 @@ public class StudentGradingSystem {
             System.out.println("4. Push to next Semester");
             System.out.println("5. Clear current allSections and allTeachingStaff files");
             System.out.println("6. Clear current allSection and allTeachingStaff in memory (Do this only while program is running)");
-            System.out.println("7. Seed New Information of all Teaching Staff, and all Sections");
+            System.out.println("7. Seed and Read New Information of all Teaching Staff, and all Sections");
             System.out.println("8. Push to next Academic Year");
             System.out.println("0. Logout as Admin");
             
@@ -399,7 +407,8 @@ public class StudentGradingSystem {
                     break;
                 case 3: 
                     // Save current Semester (Sections, Students, and Teaching Staff)
-                    // TODO functionality
+                    // NOTE: Very complicated, you have to do it manually :(
+                    saveDataToRecords();
                     System.out.println("Saving current Semester's data...");
                     Displays.confirmNextPage();
                     break;
@@ -410,7 +419,7 @@ public class StudentGradingSystem {
                     break;
                 case 5:
                     // Clear the current files within the allSections, allTeachingStaff, and allStudents directories
-                    //TODO atm
+                    clearAllCurrentFolders();
                     System.out.println("Clearning current allSections, allTeachingStaff, and allStudents files...");
                     Displays.confirmNextPage();
                     break;
@@ -421,22 +430,36 @@ public class StudentGradingSystem {
                     clearCurrentTeachingStaffs(allTeachingStaff);
                     System.out.print("Current allSections and allTeachingStaff has been cleered...");
                     Displays.confirmNextPage();
-
                     break;
-                case 7:
-                    System.out.println("TODO");
-                    Displays.confirmNextPage();
-                break;
 
+                case 7:
+                    // Seed and Read new semester and/or academic year from masterDatabase
+                    seedSectionsAndStudents(allSections);
+                    seedTeachingStaff(allTeachingStaff);
+
+                    readAllSectionsFromFiles(allSections);
+                    readTeachingStaffFromFiles(allTeachingStaff);
+                    Displays.confirmNextPage();
+                    break;
+
+                case 8:
+                    // Push to next Academic Year
+                    pushAcademicYear(new File("masterDatabase/currentAcademicYearData.txt"));
+                    Displays.confirmNextPage();
+                    break;
                 case 0:
                     System.out.println("Logging out. Returning to Start Menu");
                     loggedIn = false;
                 break;
 
+                default:
+                    System.out.println("Invalid Input, Please Try Again");
+                    Displays.confirmNextPage();
+                    break;
             }
         }
         // default will always make the admin logout
-
+        scanner.close();
     }
 
     // View the current admin's records from adminRecords directory
@@ -490,6 +513,18 @@ public class StudentGradingSystem {
         System.out.println("Pushed to next semester: " + currentSemester);
     }
 
+    private static void pushAcademicYear(File AYFile) throws IOException {
+        Scanner scan = new Scanner (AYFile);
+        int currentAY = Integer.parseInt(scan.nextLine().trim());
+        currentAY += 1;
+        scan.close();
+
+        FileWriter ayWriter = new FileWriter(AYFile);
+        ayWriter.write(String.valueOf(currentAY));
+        ayWriter.close();
+        System.out.println("Pushed to next Academic Year: " + currentAY);
+    }
+
     // Clear the current allSections and allTeachingStaff in memory
     private static ArrayList<Section> clearCurrentSections(ArrayList<Section> allSections) {
         allSections.clear();
@@ -514,13 +549,8 @@ public class StudentGradingSystem {
         for (File file : teachingStaffFolder.listFiles()) {
             file.delete();
             System.out.println("Deleted File: " + file.getName());
-            // if (file.getName().equals("all-teaching-staff")) {
-            //     System.out.println("Found it");
-            //     file.delete();
-            // }
         }
-        // File allTeachingStaffFile = new File("allTeachingStaff/all-teaching-staff.txt");
-        // allTeachingStaffFile.delete();
+
         // Deletes all content in allSectionsGraded folder
         File sectionsGradedFolder = new File("allSectionsGraded");
         for (File file : sectionsGradedFolder.listFiles()) {
@@ -531,7 +561,37 @@ public class StudentGradingSystem {
         System.out.println("all current folders have been deleted");
     }
 
+    private static void saveDataToRecords() throws IOException {
+        int acadYear = getCurrentAcademicYear();
+        int semester = getCurrentSemester();
+        File dirCurrentAY = new File("Records/AcadYear" + acadYear + "-" + (acadYear + 1));
+        if (!dirCurrentAY.exists()){
+            dirCurrentAY.mkdir();
+            System.out.println("Folder \"" + dirCurrentAY.getName() + "\" has been created in Records");
+        } else {
+            System.out.println(dirCurrentAY.getName() + " has already been created");
+        }
 
+        File dirCurrentSem = new File("Records/" + dirCurrentAY.getName() + "/" + "Semester-" + semester);
+        if (!dirCurrentSem.exists()){
+            dirCurrentSem.mkdir();
+            System.out.println("Folder \"" + dirCurrentSem.getName() + "\" has been created in Records/" + dirCurrentAY.getName());
+        } else {
+            System.out.println(dirCurrentSem.getName() + " has already been created");
+        }
+
+        File dirCreatedStarterFile = new File("Records/"+dirCurrentAY.getName()+"/"+dirCurrentSem.getName()+"/starterFile.txt");
+        if(!dirCreatedStarterFile.exists()){
+           dirCreatedStarterFile.createNewFile(); 
+            System.out.println("Starter File has been made for accessible content");
+        } 
+
+        FileWriter writeStarterFile = new FileWriter(dirCreatedStarterFile);
+        writeStarterFile.write("Just a starter file so you can access this folder much easier :)");
+        writeStarterFile.close();
+
+    }
+    
     // ---------------------------------------------    MOST ADMIN FUNCTIONS    --------------------------------------------------------------------------
 
     // END OF FILE OF THE STUDENT GRADING SYSTEM
