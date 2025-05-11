@@ -105,7 +105,7 @@ public class TeachingStaff extends Person {
 
     public String callInfo() {
         return String.format(
-            "Staff ID: %s\nDepartment: %s\nSections Handled: %s\nCourses Taught: %s\n",
+            "Staff ID: %s\tDepartment: %s\nSections Handled: %s\nCourses Taught: %s\n",
             staffID, department, sectionsHandled, coursesTaught
         );
     }

@@ -4,7 +4,7 @@
  * @author: csonza, rmol, vgba
  * 
  * @Mark-Update: 0.2
- * @Version-Update: 0.3
+ * @Version-Update: 0.4
  */
 
 import java.io.*;
@@ -44,6 +44,8 @@ public class StudentGradingSystem {
             int currentSemester = getCurrentSemester();   
 
             boolean isAdminLoggedIn = false;
+            TeachingStaff loggedInTeachStaff;
+
             String userInput = Displays.displayStartMenu(schoolName, currentAcademicYear, currentSemester);
             // START MENU
             switch (userInput) {
@@ -60,7 +62,12 @@ public class StudentGradingSystem {
                 case "2":
                     // Login as Teaching Staff
                     // loginResult = Displays.displayLoginMenu(currentAdmin, allTeachingStaff); 
-                    System.out.println("TODO");
+                    loggedInTeachStaff = Displays.teachingStaffLogin(allTeachingStaff);
+                    if (loggedInTeachStaff == null) {
+                        System.out.println("returning to start menu");
+                    } else if (loggedInTeachStaff != null) {
+                        Displays.displayTeachingStaffMenu(loggedInTeachStaff, allSections);
+                    }
                     break;
                 case "0":
                     // Exit the program
@@ -85,7 +92,7 @@ public class StudentGradingSystem {
     }
 
     // Current academic year is read from a file
-    private static int getCurrentAcademicYear() throws FileNotFoundException {
+    public static int getCurrentAcademicYear() throws FileNotFoundException {
         File file = new File("masterDatabase/currentAcademicYearData.txt");
         Scanner line = new Scanner(file);
             String lineData = line.nextLine().trim();
@@ -99,7 +106,7 @@ public class StudentGradingSystem {
                 
     }
 
-    private static int getCurrentSemester() throws FileNotFoundException {
+    public static int getCurrentSemester() throws FileNotFoundException {
         File file = new File("masterDatabase/currentSemesterData.txt");
         Scanner line = new Scanner(file);
         String lineData = line.nextLine().trim();
@@ -249,12 +256,14 @@ public class StudentGradingSystem {
             String line = scan.nextLine().trim();
             
             if (line.startsWith(">")) {
-                currentSectionName = line.substring(1).trim(); // Remove the "-"
+                currentSectionName = line.substring(1).trim(); // Remove the ">"
                 currentStudents = new ArrayList<>();
                 continue;
             }
             
             if (line.equals("---")) {
+                currentStudents = Utility.bubbleSortStudents(currentStudents);
+
                 Section newSection = new Section(currentSectionName);
                 for (Student s : currentStudents) {
                     newSection.addStudent(s);
@@ -390,40 +399,40 @@ public class StudentGradingSystem {
             System.out.println("0. Logout as Admin");
             
             System.out.print("\nInput Selected Option: ");
-            int adminInput = Integer.parseInt(scanner.next().substring(0,1));
+            String adminInput = scanner.next().substring(0,1);
             // adminInput = scanner.nextInt();
             // Takes userInput that must be a number. Parses it from String just incase
             
             switch (adminInput) {
-                case 1:
+                case "1":
                     // View current Admin Records
                     viewAdminRecords(currentAdmin);
                     Displays.confirmNextPage();
                     break;
-                case 2:
+                case "2":
                     // View Admin Functions and Responsibilities
                     viewAdminFunctionsAndResponsibilities();
                     Displays.confirmNextPage();
                     break;
-                case 3: 
+                case "3": 
                     // Save current Semester (Sections, Students, and Teaching Staff)
                     // NOTE: Very complicated, you have to do it manually :(
                     saveDataToRecords();
                     System.out.println("Saving current Semester's data...");
                     Displays.confirmNextPage();
                     break;
-                case 4:
+                case "4":
                     // Push program to next Semester
                     pushSemester(new File("masterDatabase/currentSemesterData.txt"));
                     Displays.confirmNextPage();
                     break;
-                case 5:
+                case "5":
                     // Clear the current files within the allSections, allTeachingStaff, and allStudents directories
                     clearAllCurrentFolders();
                     System.out.println("Clearning current allSections, allTeachingStaff, and allStudents files...");
                     Displays.confirmNextPage();
                     break;
-                case 6: 
+                case "6": 
                     // Clear current allSection and allTeachingStaff in memory (Do this only while program is running)
                     // This clears the current allSections and allTeachingStaff in memory
                     clearCurrentSections(allSections);
@@ -432,7 +441,7 @@ public class StudentGradingSystem {
                     Displays.confirmNextPage();
                     break;
 
-                case 7:
+                case "7":
                     // Seed and Read new semester and/or academic year from masterDatabase
                     seedSectionsAndStudents(allSections);
                     seedTeachingStaff(allTeachingStaff);
@@ -442,13 +451,14 @@ public class StudentGradingSystem {
                     Displays.confirmNextPage();
                     break;
 
-                case 8:
+                case "8":
                     // Push to next Academic Year
                     pushAcademicYear(new File("masterDatabase/currentAcademicYearData.txt"));
                     Displays.confirmNextPage();
                     break;
-                case 0:
+                case "0":
                     System.out.println("Logging out. Returning to Start Menu");
+                    Displays.confirmNextPage();
                     loggedIn = false;
                 break;
 
@@ -459,7 +469,7 @@ public class StudentGradingSystem {
             }
         }
         // default will always make the admin logout
-        scanner.close();
+        // scanner.close();
     }
 
     // View the current admin's records from adminRecords directory

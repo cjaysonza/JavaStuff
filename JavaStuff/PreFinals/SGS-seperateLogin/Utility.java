@@ -3,6 +3,7 @@
  *  This is a utility class that provides various helper methods for certain things in the project.
  * 
  */
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Utility {
@@ -34,4 +35,23 @@ public class Utility {
         }
         return doubleArray;
     }
+
+    // Bubble sorting students alphabetically.
+    public static ArrayList<Student> bubbleSortStudents(ArrayList<Student> students) {
+    int n = students.size();
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            String fullName1 = students.get(j).getSurname().toLowerCase().replace(" ", "") + students.get(j).getFirstname().toLowerCase().replace(" ", "");
+            String fullName2 = students.get(j + 1).getSurname().toLowerCase().replace(" ", "") + students.get(j + 1).getFirstname().toLowerCase().replace(" ", "");
+
+            if (fullName1.compareTo(fullName2) > 0) {
+                // Swap students[j] and students[j+1]
+                Student temp = students.get(j);
+                students.set(j, students.get(j + 1));
+                students.set(j + 1, temp);
+            }
+        }
+    }
+    return students;
+}
 }

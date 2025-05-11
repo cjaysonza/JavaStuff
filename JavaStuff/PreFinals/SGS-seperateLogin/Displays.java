@@ -1,4 +1,6 @@
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /*
@@ -127,25 +129,96 @@ public class Displays {
         return false;
     }
 
+    // Login as Teaching Staff
+    public static TeachingStaff teachingStaffLogin(ArrayList<TeachingStaff> allTeachingStaff) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(borderEqual + borderEqual);
+        System.out.println("Teaching Staff Login Menu");
+        System.out.println("Input \"prev\" in the username to return to the start menu.");
+        System.out.println(borderEqual + borderEqual);
+        System.out.print("Username(Firstname + Lastname): ");
+        String username = scanner.nextLine();
+        
+        // Check if user just mispressed and wants to return to the start menu
+        if (username.equalsIgnoreCase("prev")) {
+            System.out.println("returning to the start menu...");
+            return null;
+        }
 
+        System.out.print("Enter your password: ");
+        String password = scanner.nextLine();
+        // scanner.close();
+
+        // Check if the username is in the allTeachingStaff database
+        for (TeachingStaff staff : allTeachingStaff) {
+            String fullName = staff.getFirstname().trim() + " " + staff.getSurname().trim();
+            if (username.equalsIgnoreCase(fullName) && password.equals(staff.getPassword())) {
+                System.out.println("Login successful. Welcome, " + fullName + "!");
+                return staff;
+            }
+        }
+
+        // If no match is found, return a value to trigger an error message
+        System.out.println("Invalid username or password. Please try again.");
+        return null;
+    
+    }
 
     // IF a teaching staff member is logged in, this method will be used to display their menu.
-    public static int displayTeachingStaffMenu(TeachingStaff teachingStaff) {
+    public static void displayTeachingStaffMenu(TeachingStaff teachingStaff, ArrayList<Section> allSections) throws FileNotFoundException {
         Scanner scanner = new Scanner(System.in);
-        
-        System.out.println(borderEqual + borderEqual);
-        System.out.println("Welcome " + teachingStaff.getFirstname() + ", " + teachingStaff.getSurname() + "!");
-        System.out.println(teachingStaff.callInfo());
-        System.out.println(borderEqual + borderEqual);
-        System.out.println("1. View Courses");
-        System.out.println("2. View Students");
-        System.out.println("3. Grade Students of a Section");
-        System.out.println("3. Logout");
-        System.out.print("\nPlease select an option: ");
-        String userInput = scanner.nextLine();
-        scanner.close();
+        boolean loggedIn = true;
 
-        return Integer.parseInt(userInput); // Return the user's choice as an integer
+        while (loggedIn) {
+            int acadYear = StudentGradingSystem.getCurrentAcademicYear();
+            int semester = StudentGradingSystem.getCurrentSemester();
+            String currentData = String.format("Acad.Year: %d-%d\t\tSemester: %d", acadYear, acadYear + 1, semester);
+            System.out.println(borderEqual + borderEqual);
+            System.out.println("Welcome " + teachingStaff.getFirstname() + ", " + teachingStaff.getSurname() + "!");
+            System.out.println(teachingStaff.callInfo());
+            System.out.println(currentData);
+            System.out.println(borderEqual + borderEqual);
+            System.out.println("1. View Courses");
+            System.out.println("2. View Students");
+            System.out.println("3. Grade Students of a Section");
+            System.out.println("0. Logout");
+            System.out.print("\nPlease select an option: ");
+            String userInput = scanner.nextLine();
+
+            switch (userInput) {
+                case "1":
+                    // View Courses that you are currently Teaching
+                    System.out.println(teachingStaff.getCoursesTaught());
+                    confirmNextPage();
+                    break;
+                case "2":
+                    // View all Students of all Courses.
+                    System.out.println("See Students of Section that you handle");
+                    System.out.println("TODO");
+                    confirmNextPage();
+                    break;
+                case "3":
+                    // Actually Grading their Students.
+                    System.out.println("Choose a Course, then Choose a Section, then will grade section");
+                    System.out.println("TODO");
+                    confirmNextPage();
+                    break;
+                case "0":
+                    // Logout
+                    System.out.println("Logging out. Returning to Start Menu");
+                    loggedIn = false;
+                    confirmNextPage();
+
+                    break;
+                default:
+                    System.out.println("Invalid Input, Please Try Again");
+                    confirmNextPage();
+                    break;
+
+            }
+        }
+
+        // scanner.close();
     }
 
     public static void chooseSectionToGrade(TeachingStaff teachingStaff) {
@@ -192,9 +265,10 @@ public class Displays {
         }
 
         // This is a confirmation page to ensure that the user wants to proceed to the next screen
-    public static boolean confirmNextPage() {
+    public static void confirmNextPage() {
             Scanner confirmInput = new Scanner(System.in);
-            while (true) { 
+            boolean runConfirm = true;
+            while (runConfirm) { 
                 System.out.println("\n");
                 System.out.println("Proceed with Next Page: ");
                 System.out.println("[Y] Yes");
@@ -203,13 +277,14 @@ public class Displays {
                 System.out.println("\n");
 
                 if (confirm.equalsIgnoreCase("y") || confirm.equalsIgnoreCase("yes")) {
-                    return true;
+                    runConfirm = false;
                 } else {
                     System.out.println("Invalid Input, Please Try again");
                     System.out.println("\n");
-
+                    runConfirm = true;
                 }
             }
+            
         }
 
 
