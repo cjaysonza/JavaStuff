@@ -4,7 +4,7 @@
  * @author: csonza, rmol, vgba
  * 
  * @Mark-Update: 0.2
- * @Version-Update: 0.4
+ * @Version-Update: 0.5
  */
 
 import java.io.*;
@@ -430,6 +430,8 @@ public class StudentGradingSystem {
                     // Clear the current files within the allSections, allTeachingStaff, and allStudents directories
                     clearAllCurrentFolders();
                     System.out.println("Clearning current allSections, allTeachingStaff, and allStudents files...");
+                    System.out.println(allSections);
+                    System.out.println(allTeachingStaff);
                     Displays.confirmNextPage();
                     break;
                 case "6": 
@@ -446,8 +448,8 @@ public class StudentGradingSystem {
                     seedSectionsAndStudents(allSections);
                     seedTeachingStaff(allTeachingStaff);
 
-                    readAllSectionsFromFiles(allSections);
-                    readTeachingStaffFromFiles(allTeachingStaff);
+                    // readAllSectionsFromFiles(allSections);
+                    // readTeachingStaffFromFiles(allTeachingStaff);
                     Displays.confirmNextPage();
                     break;
 

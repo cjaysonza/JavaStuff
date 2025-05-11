@@ -3,6 +3,8 @@
  *  This is a utility class that provides various helper methods for certain things in the project.
  * 
  */
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -49,9 +51,43 @@ public class Utility {
                 Student temp = students.get(j);
                 students.set(j, students.get(j + 1));
                 students.set(j + 1, temp);
+                }
             }
         }
+        return students;
     }
-    return students;
-}
+    
+    // Clamp for Grades
+    public static double clampGrade(double passedGrade) {
+        final double MIN_GRADE = 1.00;
+        final double MAX_GRADE = 99.99;
+
+        double clampGrade = Math.max(MIN_GRADE, Math.min(passedGrade, MAX_GRADE));
+        // Ensures that its always a double with .2 decimals;
+        clampGrade = Double.parseDouble(String.format("%.2f", clampGrade));
+        return clampGrade;
+    }
+
+    // Determine the letter Grade of an from a gradeInput
+    public static String toLetterGrade(double grade) {
+        // From CompProg1 Kromyko Edition :)
+        final int threshLength = 6;
+        final double[] thresholds = {92.0, 88.0, 84.0, 80.0, 76.0, 72.0};
+        final String[] values = {"A", "B+", "B", "C+", "C", "D"};
+        for (int i = 0; i < threshLength; i++) {
+            if (grade >= thresholds[i]) {
+                return values[i];
+            }
+        }
+        return "F";
+    }
+
+    public static void appendToTeachingRecord(String bodyoftext, String filename) throws IOException{
+        FileWriter record = new FileWriter("allTeachingStaff/" + filename + ".txt", true);
+        record.append("\n");
+        record.append(bodyoftext);
+        record.append("\n");
+    record.close();
+    }
+    
 }

@@ -1,5 +1,7 @@
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -165,7 +167,7 @@ public class Displays {
     }
 
     // IF a teaching staff member is logged in, this method will be used to display their menu.
-    public static void displayTeachingStaffMenu(TeachingStaff teachingStaff, ArrayList<Section> allSections) throws FileNotFoundException {
+    public static void displayTeachingStaffMenu(TeachingStaff teachingStaff, ArrayList<Section> allSections) throws IOException {
         Scanner scanner = new Scanner(System.in);
         boolean loggedIn = true;
 
@@ -178,8 +180,8 @@ public class Displays {
             System.out.println(teachingStaff.callInfo());
             System.out.println(currentData);
             System.out.println(borderEqual + borderEqual);
-            System.out.println("1. View Courses");
-            System.out.println("2. View Students");
+            System.out.println("1. View Teaching Record");
+            System.out.println("2. View Class List");
             System.out.println("3. Grade Students of a Section");
             System.out.println("0. Logout");
             System.out.print("\nPlease select an option: ");
@@ -187,20 +189,18 @@ public class Displays {
 
             switch (userInput) {
                 case "1":
-                    // View Courses that you are currently Teaching
-                    System.out.println(teachingStaff.getCoursesTaught());
+                    // View Teachers Teaching Record from txt file.
+                    viewTeachingRecord(teachingStaff);
                     confirmNextPage();
                     break;
                 case "2":
-                    // View all Students of all Courses.
-                    System.out.println("See Students of Section that you handle");
-                    System.out.println("TODO");
+                    // View Class List. all Students of Sections Handled.
+                    viewClassListForTeacher(teachingStaff, allSections);
                     confirmNextPage();
                     break;
                 case "3":
                     // Actually Grading their Students.
-                    System.out.println("Choose a Course, then Choose a Section, then will grade section");
-                    System.out.println("TODO");
+                    gradeStudentsInSectionCourseConsole(allSections, teachingStaff);
                     confirmNextPage();
                     break;
                 case "0":
@@ -208,7 +208,6 @@ public class Displays {
                     System.out.println("Logging out. Returning to Start Menu");
                     loggedIn = false;
                     confirmNextPage();
-
                     break;
                 default:
                     System.out.println("Invalid Input, Please Try Again");
@@ -217,29 +216,7 @@ public class Displays {
 
             }
         }
-
         // scanner.close();
-    }
-
-    public static void chooseSectionToGrade(TeachingStaff teachingStaff) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(borderEqual + borderEqual);
-        System.out.println("Choose a section to grade: ");
-        for (int i = 0; i < teachingStaff.getSectionsHandled().size(); i++) {
-            System.out.println((i + 1) + ". " + teachingStaff.getSectionsHandled().get(i));
-        }
-        System.out.print("\nPlease select an option: ");
-        String userInput = scanner.nextLine();
-        scanner.close();
-
-        int sectionIndex = Integer.parseInt(userInput) - 1;
-        if (sectionIndex >= 0 && sectionIndex < teachingStaff.getSectionsHandled().size()) {
-            String selectedSection = teachingStaff.getSectionsHandled().get(sectionIndex);
-            System.out.println("You have selected: " + selectedSection);
-            // Add logic to grade students in the selected section
-        } else {
-            System.out.println("Invalid selection. Please try again.");
-        }
     }
 
     public static void chooseCourseToGrade(TeachingStaff teachingStaff) {
@@ -264,7 +241,28 @@ public class Displays {
 
         }
 
-        // This is a confirmation page to ensure that the user wants to proceed to the next screen
+    public static void chooseSectionToGrade(TeachingStaff teachingStaff) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(borderEqual + borderEqual);
+        System.out.println("Choose a section to grade: ");
+        for (int i = 0; i < teachingStaff.getSectionsHandled().size(); i++) {
+            System.out.println((i + 1) + ". " + teachingStaff.getSectionsHandled().get(i));
+        }
+        System.out.print("\nPlease select an option: ");
+        String userInput = scanner.nextLine();
+        scanner.close();
+
+        int sectionIndex = Integer.parseInt(userInput) - 1;
+        if (sectionIndex >= 0 && sectionIndex < teachingStaff.getSectionsHandled().size()) {
+            String selectedSection = teachingStaff.getSectionsHandled().get(sectionIndex);
+            System.out.println("You have selected: " + selectedSection);
+            // Add logic to grade students in the selected section
+        } else {
+            System.out.println("Invalid selection. Please try again.");
+        }
+    }
+
+    // This is a confirmation page to ensure that the user wants to proceed to the next screen
     public static void confirmNextPage() {
             Scanner confirmInput = new Scanner(System.in);
             boolean runConfirm = true;
@@ -286,6 +284,169 @@ public class Displays {
             }
             
         }
+
+    public static void viewTeachingRecord(TeachingStaff ts) throws FileNotFoundException, IOException {
+        String specFilename = ts.getStaffID() + "-" + ts.getSurname().replace(" ", "") + ".txt";
+        File teachingRecord = new File("allTeachingStaff/" + specFilename);
+
+        Scanner filScan = new Scanner(teachingRecord);
+        while (filScan.hasNext()) {
+            String tsRecord = filScan.nextLine();
+            System.out.println(tsRecord);
+        }
+        filScan.close();
+    }
+
+    public static void viewClassListForTeacher(TeachingStaff staff, ArrayList<Section> allSections) {
+        System.out.println("\n📋 CLASS LIST FOR " + staff.getFirstname() + " " + staff.getSurname());
+
+        boolean anyMatches = false;
+
+        for (String sectionName : staff.getSectionsHandled()) {
+            // Find the matching section object in allSections
+            for (Section sec : allSections) {
+                if (sec.getSectionName().equalsIgnoreCase(sectionName)) {
+                    ArrayList<Student> studentsInSection = sec.getStudents();
+
+                    for (String course : staff.getCoursesTaught()) {
+                        // Track if this course has any matching students
+                        boolean foundAny = false;
+                        String Header = String.format("--%-16s %-16s | %-8s   | %s","Surname", "Firstname", "Student ID", "Major");
+
+                        System.out.println("\n  Section: " + sectionName + " | Course: " + course);
+                        System.out.println(border + border);
+                        System.out.println(Header);
+                        System.out.println(border + border);
+
+
+                        for (Student student : studentsInSection) {
+                            for (String studentCourse : student.getCourses()) {
+                                if (studentCourse.trim().equalsIgnoreCase(course.trim())) {
+                                    // Match found, print student info
+                                    String output = String.format("> %-16s %-16s | ID: %-8s | Major: %s",
+                                                                    student.getSurname(),
+                                                                    student.getFirstname(),
+                                                                    student.getStudentID(),
+                                                                    student.getMajor()            
+                                                                    );
+
+                                    // System.out.println("> " + student.getFirstname() + " " + student.getSurname()
+                                    //         + " | ID: " + student.getStudentID()
+                                    //         + " | Major: " + student.getMajor());
+                                    System.out.println(output);
+                                    foundAny = true;
+                                    anyMatches = true;
+                                    break; // No need to keep looping student's courses
+                                }
+                            }
+                        }
+
+                        if (!foundAny) {
+                            System.out.println("No students enrolled in " + course + " for section " + sectionName + ".");
+                            System.out.println("Or, does not teach this course to this section");
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!anyMatches) {
+            System.out.println("No matching students found in any sections/courses handled by this staff member.");
+        }
+
+        System.out.println(); // extra newline
+    }
+
+    public static void gradeStudentsInSectionCourseConsole(ArrayList<Section> allSections, TeachingStaff teacher) throws IOException {
+    Scanner scan = new Scanner(System.in);
+
+    // Display sections handled by this teacher
+    System.out.println("\nSections you handle:");
+    for (String sectionName : teacher.getSectionsHandled()) {
+        System.out.println("- " + sectionName);
+    }
+
+    // Prompt for section name
+    System.out.print("\nEnter section to grade: ");
+    String sectionInput = scan.nextLine().trim();
+
+    Section selectedSection = null;
+    for (Section s : allSections) {
+        if (s.getSectionName().equalsIgnoreCase(sectionInput)) {
+            selectedSection = s;
+            break;
+        }
+    }
+
+    if (selectedSection == null) {
+        System.out.println("Section not found.");
+        return;
+    }
+
+    // Display all Courses Taught by this teacher
+    System.out.println("\nSections you handle:");
+    for (String courseName : teacher.getCoursesTaught()) {
+        System.out.println("- " + courseName);
+    }
+
+    // Prompt for course name
+    System.out.print("Enter course to grade: ");
+    String courseInput = scan.nextLine().trim();
+
+    boolean courseFound = false;
+    for (Student student : selectedSection.getStudents()) {
+        for (String course : student.getCourses()) {
+            if (course.equalsIgnoreCase(courseInput)) {
+                courseFound = true;
+                break;
+            }
+        }
+        if (courseFound) break;
+    }
+
+    if (!courseFound) {
+        System.out.println("Course not found in this section. Please check the course name and try again.");
+        return;
+    }
+
+    int acadYear = StudentGradingSystem.getCurrentAcademicYear();
+    int semester = StudentGradingSystem.getCurrentSemester();
+    String currentData = String.format("Acad.Year: %d-%d\t\tSemester: %d", acadYear, acadYear + 1, semester);
+    String output = "\nGrading for Section: " + selectedSection.getSectionName() + ", Course: " + courseInput + "\n";
+    output += currentData + "\n";
+    output += border + border + "\n";
+
+    System.out.println(output);
+    for (Student student : selectedSection.getStudents()) {
+        int courseIndex = -1;
+        for (int i = 0; i < student.getCourses().length; i++) {
+            if (student.getCourses()[i].equalsIgnoreCase(courseInput)) {
+                courseIndex = i;
+                break;
+            }
+        }
+        String studFullName = student.getFirstname() + " " + student.getSurname();
+
+        if (courseIndex != -1) {
+            System.out.print("Enter grade for " + studFullName + " (" + student.getStudentID() + "): ");
+            double grade = Utility.clampGrade(Double.parseDouble(scan.nextLine().trim()));
+            student.getNumGrades()[courseIndex] = grade;
+            student.getLetterGrades()[courseIndex] = Utility.toLetterGrade(grade);
+
+            output += studFullName + " | " + student.getStudentID();
+            output += " | Grade: " + grade + " (" + Utility.toLetterGrade(grade) + ")\n";
+        }
+    }
+
+    System.out.println("\n--- Grading Summary ---");
+    System.out.println(output);
+
+    // filename to append to teaching record
+    String proFile = teacher.getStaffID() + "-" + teacher.getSurname().replace(" ", "");
+    Utility.appendToTeachingRecord(output, proFile);
+
+    StudentGradingSystem.writeSectionToFile(selectedSection);
+}
 
 
 }

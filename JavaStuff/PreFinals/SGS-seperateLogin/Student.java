@@ -81,4 +81,8 @@ public class Student extends Person {
         scan.close();
         return new Student(surname, firstname, studentID, major, courses, letterGrades, numGrades);
     }
+
+    // public static String getFullName(Student student) {
+    //     return student.getFirstname() + " " + student.getSurname();
+    // }
 }
