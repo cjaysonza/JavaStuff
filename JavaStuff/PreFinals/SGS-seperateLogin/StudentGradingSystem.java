@@ -4,7 +4,7 @@
  * @author: csonza, rmol, vgba
  * 
  * @Mark-Update: 0.2
- * @Version-Update: 0.5
+ * @Version-Update: 0.6
  */
 
 import java.io.*;
@@ -21,10 +21,6 @@ public class StudentGradingSystem {
         // There can only be one admin in the system
         Admin currentAdmin = Admin.readAdminFromFile();
         writeAdminToAdminRecords(currentAdmin);
-
-        // This is the first time the system is run, so we need to seed the database
-        // seedSectionsAndStudents(allSections);
-        // seedTeachingStaff(allTeachingStaff);
 
         // This is not the first time the system is run, so we need to read the database
         // seedSectionsAndStudents(allSections);
@@ -119,19 +115,20 @@ public class StudentGradingSystem {
             }
     }
 
+    // THIS WAS JUST A TESTER METHOD
     // Read the admin's data from a file in the adminRecords directory
-    private static void printFirstStudentOfEverySection(ArrayList<Section> allSections) {
-        for (Section section : allSections) {
-            Student student = section.getStudents().get(3);
+    // private static void printFirstStudentOfEverySection(ArrayList<Section> allSections) {
+    //     for (Section section : allSections) {
+    //         Student student = section.getStudents().get(3);
             
-            System.out.println(section.getSectionName());
-            System.out.println(student.getSurname() + " " + student.getFirstname() + "\n" + student.getStudentID() + "\n" + student.getMajor()
-            + "\n" + Arrays.toString(student.getCourses()) + "\n" + Arrays.toString(student.getLetterGrades())
-            + "\n" + Arrays.toString(student.getNumGrades()));
+    //         System.out.println(section.getSectionName());
+    //         System.out.println(student.getSurname() + " " + student.getFirstname() + "\n" + student.getStudentID() + "\n" + student.getMajor()
+    //         + "\n" + Arrays.toString(student.getCourses()) + "\n" + Arrays.toString(student.getLetterGrades())
+    //         + "\n" + Arrays.toString(student.getNumGrades()));
             
-            System.out.println("--------------------------------------------------\n\n\n");
-        }
-    }
+    //         System.out.println("--------------------------------------------------\n\n\n");
+    //     }
+    // }
     
     // Read the teaching staff's data from a file in the allTeachingStaff directory
     private static void readTeachingStaffFromFiles(ArrayList<TeachingStaff> allTeachingStaff) throws IOException {
@@ -608,13 +605,3 @@ public class StudentGradingSystem {
 
     // END OF FILE OF THE STUDENT GRADING SYSTEM
     }
-
-
-
-
-// TODO Functionality:
-/*
- * 1.
- * 
- * 
- */

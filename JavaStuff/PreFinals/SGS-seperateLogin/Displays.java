@@ -285,6 +285,7 @@ public class Displays {
             
         }
 
+    // View current teachingStaff's teaching record from respective .txt file
     public static void viewTeachingRecord(TeachingStaff ts) throws FileNotFoundException, IOException {
         String specFilename = ts.getStaffID() + "-" + ts.getSurname().replace(" ", "") + ".txt";
         File teachingRecord = new File("allTeachingStaff/" + specFilename);
@@ -297,6 +298,7 @@ public class Displays {
         filScan.close();
     }
 
+    // Prints all the students of all sections. If you handle that said section, it prints all their students. Otherwise, throws a message.
     public static void viewClassListForTeacher(TeachingStaff staff, ArrayList<Section> allSections) {
         System.out.println("\n📋 CLASS LIST FOR " + staff.getFirstname() + " " + staff.getSurname());
 
@@ -357,95 +359,146 @@ public class Displays {
         System.out.println(); // extra newline
     }
 
+    // Choose a Section -> Choose a Course to grade -> Validates all userinputs -> Grade the section's students of said course -> store data in respective section_data.txt 
     public static void gradeStudentsInSectionCourseConsole(ArrayList<Section> allSections, TeachingStaff teacher) throws IOException {
-    Scanner scan = new Scanner(System.in);
+        Scanner scan = new Scanner(System.in);
 
-    // Display sections handled by this teacher
-    System.out.println("\nSections you handle:");
-    for (String sectionName : teacher.getSectionsHandled()) {
-        System.out.println("- " + sectionName);
+        // Display sections handled by this teacher
+        System.out.println("\nSections you handle:");
+        for (String sectionName : teacher.getSectionsHandled()) {
+            System.out.println("- " + sectionName);
+        }
+
+        // Prompt for section name
+        System.out.print("\nEnter section to grade: ");
+        String sectionInput = scan.nextLine().trim();
+
+        Section selectedSection = null;
+        for (Section s : allSections) {
+            if (s.getSectionName().equalsIgnoreCase(sectionInput)) {
+                selectedSection = s;
+                break;
+            }
+        }
+
+        if (selectedSection == null) {
+            System.out.println("Section not found.");
+            return;
+        }
+
+        // Display all Courses Taught by this teacher
+        System.out.println("\nCourses you handle:");
+        for (String courseName : teacher.getCoursesTaught()) {
+            System.out.println("- " + courseName);
+        } System.out.println("\n");
+
+        // Prompt for course name
+        System.out.print("Enter course to grade: ");
+        String courseInput = scan.nextLine().trim();
+
+        boolean courseFound = false;
+        for (Student student : selectedSection.getStudents()) {
+            for (String course : student.getCourses()) {
+                if (course.equalsIgnoreCase(courseInput)) {
+                    courseFound = true;
+                    break;
+                }
+            }
+            if (courseFound) break;
+        }
+
+        // Check if course is found
+        if (!courseFound) {
+            System.out.println("Course not found in this section. Please check the course name and try again.");
+            return;
+        }
+
+        boolean alreadyGraded = Displays.isCourseAlreadyGraded(selectedSection, courseInput);
+        // Check if any student of the current selection has a numGrade value that is not "0.0"
+        if (alreadyGraded) {
+            System.out.println("This section has already been graded for the course '" + courseInput + "'.");
+            return;
+        }
+
+        // Check if user inputs were a valid assignment
+        if (!isValidTeacherAssignment(teacher, sectionInput, courseInput)) {
+            System.out.println("You are not authorized to grade this section or course.");
+            return;
     }
 
-    // Prompt for section name
-    System.out.print("\nEnter section to grade: ");
-    String sectionInput = scan.nextLine().trim();
 
-    Section selectedSection = null;
-    for (Section s : allSections) {
-        if (s.getSectionName().equalsIgnoreCase(sectionInput)) {
-            selectedSection = s;
+        int acadYear = StudentGradingSystem.getCurrentAcademicYear();
+        int semester = StudentGradingSystem.getCurrentSemester();
+        String currentData = String.format("Acad.Year: %d-%d\t\tSemester: %d", acadYear, acadYear + 1, semester);
+        String output = "\nGrading for Section: " + selectedSection.getSectionName() + ", Course: " + courseInput + "\n";
+        output += currentData + "\n";
+        output += border + border + "\n";
+
+        System.out.println(output);
+        for (Student student : selectedSection.getStudents()) {
+            int courseIndex = -1;
+            for (int i = 0; i < student.getCourses().length; i++) {
+                if (student.getCourses()[i].equals(courseInput)) {
+                    courseIndex = i;
+                    break;
+                }
+            }
+            String studFullName = student.getFirstname() + " " + student.getSurname();
+
+            if (courseIndex != -1) {
+                System.out.print("Enter grade for " + studFullName + " (" + student.getStudentID() + "): ");
+                double grade = Utility.clampGrade(Double.parseDouble(scan.nextLine().trim()));
+                student.getNumGrades()[courseIndex] = grade;
+                student.getLetterGrades()[courseIndex] = Utility.toLetterGrade(grade);
+
+                output += studFullName + " | " + student.getStudentID();
+                output += " | Grade: " + grade + " (" + Utility.toLetterGrade(grade) + ")\n";
+            }
+        }
+
+        System.out.println("\n--- Grading Summary ---");
+        System.out.println(output);
+
+        // filename to append to teaching record
+        String proFile = teacher.getStaffID() + "-" + teacher.getSurname().replace(" ", "");
+        Utility.appendToTeachingRecord(output, proFile);
+
+        StudentGradingSystem.writeSectionToFile(selectedSection);
+    }
+
+    // Helper method in assessing if a section has already been graded.
+    public static boolean isCourseAlreadyGraded(Section section, String courseName) {
+        for (Student student : section.getStudents()) {
+            for (int i = 0; i < student.getCourses().length; i++) {
+                if (student.getCourses()[i].equalsIgnoreCase(courseName) &&
+                    student.getNumGrades()[i] > 0.0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // Check if the teacher's inputs are a valid assignment
+    public static boolean isValidTeacherAssignment(TeachingStaff teacher, String sectionInput, String courseInput) {
+    boolean handlesSection = false;
+    boolean teachesCourse = false;
+
+    for (String section : teacher.getSectionsHandled()) {
+        if (section.equalsIgnoreCase(sectionInput)) {
+            handlesSection = true;
             break;
         }
     }
 
-    if (selectedSection == null) {
-        System.out.println("Section not found.");
-        return;
-    }
-
-    // Display all Courses Taught by this teacher
-    System.out.println("\nSections you handle:");
-    for (String courseName : teacher.getCoursesTaught()) {
-        System.out.println("- " + courseName);
-    }
-
-    // Prompt for course name
-    System.out.print("Enter course to grade: ");
-    String courseInput = scan.nextLine().trim();
-
-    boolean courseFound = false;
-    for (Student student : selectedSection.getStudents()) {
-        for (String course : student.getCourses()) {
-            if (course.equalsIgnoreCase(courseInput)) {
-                courseFound = true;
-                break;
-            }
-        }
-        if (courseFound) break;
-    }
-
-    if (!courseFound) {
-        System.out.println("Course not found in this section. Please check the course name and try again.");
-        return;
-    }
-
-    int acadYear = StudentGradingSystem.getCurrentAcademicYear();
-    int semester = StudentGradingSystem.getCurrentSemester();
-    String currentData = String.format("Acad.Year: %d-%d\t\tSemester: %d", acadYear, acadYear + 1, semester);
-    String output = "\nGrading for Section: " + selectedSection.getSectionName() + ", Course: " + courseInput + "\n";
-    output += currentData + "\n";
-    output += border + border + "\n";
-
-    System.out.println(output);
-    for (Student student : selectedSection.getStudents()) {
-        int courseIndex = -1;
-        for (int i = 0; i < student.getCourses().length; i++) {
-            if (student.getCourses()[i].equalsIgnoreCase(courseInput)) {
-                courseIndex = i;
-                break;
-            }
-        }
-        String studFullName = student.getFirstname() + " " + student.getSurname();
-
-        if (courseIndex != -1) {
-            System.out.print("Enter grade for " + studFullName + " (" + student.getStudentID() + "): ");
-            double grade = Utility.clampGrade(Double.parseDouble(scan.nextLine().trim()));
-            student.getNumGrades()[courseIndex] = grade;
-            student.getLetterGrades()[courseIndex] = Utility.toLetterGrade(grade);
-
-            output += studFullName + " | " + student.getStudentID();
-            output += " | Grade: " + grade + " (" + Utility.toLetterGrade(grade) + ")\n";
+    for (String course : teacher.getCoursesTaught()) {
+        if (course.equalsIgnoreCase(courseInput)) {
+            teachesCourse = true;
+            break;
         }
     }
 
-    System.out.println("\n--- Grading Summary ---");
-    System.out.println(output);
-
-    // filename to append to teaching record
-    String proFile = teacher.getStaffID() + "-" + teacher.getSurname().replace(" ", "");
-    Utility.appendToTeachingRecord(output, proFile);
-
-    StudentGradingSystem.writeSectionToFile(selectedSection);
+    return handlesSection && teachesCourse;
 }
 
 

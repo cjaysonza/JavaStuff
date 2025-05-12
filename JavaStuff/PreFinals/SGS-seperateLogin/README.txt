@@ -20,3 +20,7 @@ TeachingStaff login and logout has been made successfully.
 v0.5
 All Functionalities in the program have now been made. All that is left is file Printing of each section in a formatted Text File.
 @csonza 05/12/2025-01:57:AM
+
+v0.6
+Added input validation and error handling for Displays.gradeStudentsInSectionCourseConsole
+@csonza 05/12/2025-01:57:AM
