@@ -28,3 +28,7 @@ Added input validation and error handling for Displays.gradeStudentsInSectionCou
 v0.7
 99% of all funcitonalities have been made. Prod Ready
 @csonza 05/12/2025-09:32:AM
+
+v0.8
+Code Review. Found some bugs, TODO is close the scanner in the teachingStaff menu. Semi-ditched admin records function as too difficult at the time.
+@csonza 05/12/2025-09:32:AM

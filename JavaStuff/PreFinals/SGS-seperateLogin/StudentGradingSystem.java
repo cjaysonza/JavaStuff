@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class StudentGradingSystem {
-
     public static void main(String[] args) throws FileNotFoundException, IOException {
         ArrayList<Section> allSections = new ArrayList<>();
         ArrayList<TeachingStaff> allTeachingStaff = new ArrayList<>();
@@ -32,6 +31,7 @@ public class StudentGradingSystem {
         // Now: University of Advance Studies, Training, Research, and Academia (U-ASTRA) 
         
         boolean isRunning = true;
+        Utility.appendToAdminRecord("System was Booted\n");
         while (isRunning) { 
             // Read the current academic year from a file. default: 2024
             int currentAcademicYear = getCurrentAcademicYear();
@@ -68,11 +68,14 @@ public class StudentGradingSystem {
                 case "0":
                     // Exit the program
                     Displays.displayExitMessage();
-                    System.out.println("\nExiting the program...");
+                    System.out.println("Exiting the program...");
                     isRunning = false;
+                    Utility.appendToAdminRecord("\nProgram was ended\n\n");
                     break;
                 default:
                     System.out.println("\nInvalid input. Please try again.");
+                    Utility.appendToAdminRecord("\nuser made invalid input");
+                break;
             }
         }
 
@@ -331,8 +334,8 @@ public class StudentGradingSystem {
 
     }
     
-        //  Writes to 'allTeachingStaff/all-teaching-staff.txt'
-        public static void writeTeachingStaffToFile(ArrayList<TeachingStaff> staffList) throws IOException {
+    //  Writes to 'allTeachingStaff/all-teaching-staff.txt'
+    public static void writeTeachingStaffToFile(ArrayList<TeachingStaff> staffList) throws IOException {
         FileWriter writer = new FileWriter("allTeachingStaff/all-teaching-staff.txt");
         // File allTeachingStaffFile = new File("allTeachingStaff/all-teaching-staff.txt");
         // if (!allTeachingStaffFile.exists()) {
@@ -357,37 +360,57 @@ public class StudentGradingSystem {
         writer.close();
     }
 
-    // Write a formatted Graded File for each section
-        public static void writeFormattedGradedFile(Section section) throws IOException {
-            File dir = new File("allSectionsGraded");
-            if (!dir.exists()) dir.mkdir();
+    // Create a <sectionname>_Graded.txt for each section
+    public static void writeFormattedGradedFile(Section section) throws IOException {
+        File dir = new File("allSectionsGraded");
+        if (!dir.exists()) dir.mkdir();
 
-            File gradedFile = new File(dir, section.getSectionName() + "_Graded.txt");
-            FileWriter writer = new FileWriter(gradedFile);
+        File gradedFile = new File(dir, section.getSectionName() + "_Graded.txt");
+        FileWriter writer = new FileWriter(gradedFile); // Overwrite during seeding
 
-            writer.write(String.format("Formatted Grade Report for Section: %s\n", section.getSectionName()));
-            writer.write("------------------------------------------------------------------------------------\n");
-            writer.write(String.format("%-25s %-10s %-25s %-20s %-10s\n", "Full Name", "ID", "Course", "Letter Grade", "Num Grade"));
-            writer.write("------------------------------------------------------------------------------------\n");
+        int acadYear = StudentGradingSystem.getCurrentAcademicYear();
+        int semester = StudentGradingSystem.getCurrentSemester();
 
-            for (Student student : section.getStudents()) {
-                String fullName = student.getFirstname() + " " + student.getSurname();
-                String id = student.getStudentID();
-                String[] courses = student.getCourses();
-                String[] letterGrades = student.getLetterGrades();
-                double[] numGrades = student.getNumGrades();
+        writer.write(String.format("Formatted Grade Report for Section: %s\n", section.getSectionName()));
+        writer.write("Academic Year: " + acadYear + "-" + (acadYear + 1) + "\n");
+        writer.write("Semester: " + semester + "\n");
+        writer.write(Displays.border + Displays.border + "\n");
+        writer.write("\n\n");
 
-                for (int i = 0; i < courses.length; i++) {
-                    if (numGrades[i] > 0.0) {
-                        writer.write(String.format("%-25s %-10s %-25s %-20s %-10.2f\n",
-                                fullName, id, courses[i], letterGrades[i], numGrades[i]));
-                    }
+        writer.close();
+    }
+
+    // Append the actions in Displays.gradeStudentInSectionCourseConsole to the sections respective Graded.txt
+    public static void appendToFormattedGradedFile(Section section, String courseInputName) throws IOException {
+        File dir = new File("allSectionsGraded");
+        if (!dir.exists()) dir.mkdir();
+
+        File gradedFile = new File(dir, section.getSectionName() + "_Graded.txt");
+        FileWriter writer = new FileWriter(gradedFile, true);
+
+        writer.write(Displays.border + Displays.border + "\n");
+        writer.write(String.format("Formatted Grade Report for Section: %s\n", section.getSectionName()));
+        writer.write("-> Course Graded: " + courseInputName + "\n");
+        writer.write(String.format("%-25s %-10s %-25s %-20s %-10s\n", "Full Name", "ID", "Course", "Letter Grade", "Num Grade"));
+        writer.write(Displays.border + Displays.border + "\n");
+
+        for (Student student : section.getStudents()) {
+            String fullName = student.getFirstname() + " " + student.getSurname();
+            String id = student.getStudentID();
+            String[] courses = student.getCourses();
+            String[] letterGrades = student.getLetterGrades();
+            double[] numGrades = student.getNumGrades();
+
+            for (int i = 0; i < courses.length; i++) {
+                if (numGrades[i] > 0.0) {
+                    writer.write(String.format("%-25s %-10s %-25s %-20s %-10.2f\n",
+                            fullName, id, courses[i], letterGrades[i], numGrades[i]));
                 }
             }
-            writer.write("\n\n");
-            writer.close();
         }
-
+        writer.write("\n\n");
+        writer.close();
+    }
 
     // Write the admin's data to a file in the adminRecords directory
     // This is the first time the system is run, so we need to seed the database
@@ -398,6 +421,7 @@ public class StudentGradingSystem {
             adminWriter.write("Password: " + currentAdmin.getPassword() + "\n");
             adminWriter.write("Department: Adminstritative - Program Management\n");
             adminWriter.write("Records and Actions: \n");
+            adminWriter.write("\n");
         adminWriter.close();
     }
     

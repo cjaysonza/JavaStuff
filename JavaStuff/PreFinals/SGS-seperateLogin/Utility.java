@@ -32,29 +32,29 @@ public class Utility {
     public static double[] stringArrayToDoubleArray(String[] stringArray) {
         double[] doubleArray = new double[stringArray.length];
         for (int i = 0; i < stringArray.length; i++) {
-            // doubleArray[i] = Double.parseDouble(stringArray[i].trim());
-            doubleArray[i] = 0;
+            doubleArray[i] = Double.parseDouble(stringArray[i].trim());
+            // doubleArray[i] = 0;
         }
         return doubleArray;
     }
 
     // Bubble sorting students alphabetically.
     public static ArrayList<Student> bubbleSortStudents(ArrayList<Student> students) {
-    int n = students.size();
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            String fullName1 = students.get(j).getSurname().toLowerCase().replace(" ", "") + students.get(j).getFirstname().toLowerCase().replace(" ", "");
-            String fullName2 = students.get(j + 1).getSurname().toLowerCase().replace(" ", "") + students.get(j + 1).getFirstname().toLowerCase().replace(" ", "");
+        int n = students.size();
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                String fullName1 = students.get(j).getSurname().toLowerCase().replace(" ", "") + students.get(j).getFirstname().toLowerCase().replace(" ", "");
+                String fullName2 = students.get(j + 1).getSurname().toLowerCase().replace(" ", "") + students.get(j + 1).getFirstname().toLowerCase().replace(" ", "");
 
-            if (fullName1.compareTo(fullName2) > 0) {
-                // Swap students[j] and students[j+1]
-                Student temp = students.get(j);
-                students.set(j, students.get(j + 1));
-                students.set(j + 1, temp);
+                if (fullName1.compareTo(fullName2) > 0) {
+                    // Swap students[j] and students[j+1]
+                    Student temp = students.get(j);
+                    students.set(j, students.get(j + 1));
+                    students.set(j + 1, temp);
+                    }
                 }
             }
-        }
-        return students;
+            return students;
     }
     
     // Clamp for Grades
@@ -87,6 +87,14 @@ public class Utility {
         record.append("\n");
         record.append(bodyoftext);
         record.append("\n");
+    record.close();
+    }
+    
+    public static void appendToAdminRecord(String bodyoftext) throws IOException{
+        FileWriter record = new FileWriter("adminRecords/TheAdmin-000001.txt", true);
+        // record.append("\n");
+        record.append(bodyoftext);
+        // record.append("\n");
     record.close();
     }
     

@@ -55,7 +55,7 @@ public class Admin extends Person {
         String firstname = adminStringScanner.next();
         String adminID = adminStringScanner.next();
         String password = adminStringScanner.next();
-        String adminFileName = surname + "-" + adminID + ".txt";
+        String adminFileName = "TheAdmin-" + adminID + ".txt";
         adminStringScanner.close();
         return new Admin(surname, firstname, adminID, password, adminFileName);
     }

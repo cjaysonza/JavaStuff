@@ -3,3 +3,8 @@ Admin ID: 000001
 Password: admin123
 Department: Adminstritative - Program Management
 Records and Actions: 
+
+System was Booted
+
+Program was ended
+
