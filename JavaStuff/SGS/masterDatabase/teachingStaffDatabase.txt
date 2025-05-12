@@ -1,0 +1,7 @@
+De Juan, Alejandro,160200,password,Computer Studies,[CS1A;IT1B],[Computer Programming 1;Introduction To Computing],-
+Reyes, Marco,160201,password,Computer Studies,[CS1B;IT1A],[Competitive Programming 1;Computer Programming 1],-
+Patel, Thomas,160202,password,Mathematics,[IT1B;CS1B],[Math1000;Statistics],-
+Wright, Daniel,160203,password,Humanities,[CS1A;IT1B],[Purposive Communication;Understanding the Self],-
+Sistema, Samantha,160204,password,Physical Education,[CS1A],[PATHFIT;Health and Wellness],-
+Wright, Sophia,160205,password,Physical Education,[CS1A],[PATHFIT;Health and Wellness],-
+---

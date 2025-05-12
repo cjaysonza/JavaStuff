@@ -1,0 +1,6 @@
+Name: Marco Reyes
+Staff ID: 160201
+Department: Computer Studies
+Sections Handled: CS1B;IT1A
+Courses Taught: Competitive Programming 1;Computer Programming 1
+Teaching Record: -
