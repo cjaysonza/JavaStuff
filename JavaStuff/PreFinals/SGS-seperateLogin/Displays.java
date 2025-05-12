@@ -464,6 +464,8 @@ public class Displays {
         Utility.appendToTeachingRecord(output, proFile);
 
         StudentGradingSystem.writeSectionToFile(selectedSection);
+        StudentGradingSystem.writeFormattedGradedFile(selectedSection);
+        StudentGradingSystem.readAllSectionsFromFiles(allSections);
     }
 
     // Helper method in assessing if a section has already been graded.

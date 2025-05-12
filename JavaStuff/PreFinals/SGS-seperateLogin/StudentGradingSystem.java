@@ -4,7 +4,7 @@
  * @author: csonza, rmol, vgba
  * 
  * @Mark-Update: 0.2
- * @Version-Update: 0.6
+ * @Version-Update: 0.7
  */
 
 import java.io.*;
@@ -120,12 +120,10 @@ public class StudentGradingSystem {
     // private static void printFirstStudentOfEverySection(ArrayList<Section> allSections) {
     //     for (Section section : allSections) {
     //         Student student = section.getStudents().get(3);
-            
     //         System.out.println(section.getSectionName());
     //         System.out.println(student.getSurname() + " " + student.getFirstname() + "\n" + student.getStudentID() + "\n" + student.getMajor()
     //         + "\n" + Arrays.toString(student.getCourses()) + "\n" + Arrays.toString(student.getLetterGrades())
     //         + "\n" + Arrays.toString(student.getNumGrades()));
-            
     //         System.out.println("--------------------------------------------------\n\n\n");
     //     }
     // }
@@ -269,6 +267,7 @@ public class StudentGradingSystem {
                 System.out.println(newSection + "\n");
 
                 writeSectionToFile(newSection);
+                writeFormattedGradedFile(newSection);
                 continue;
             }
 
@@ -297,7 +296,7 @@ public class StudentGradingSystem {
         }
         
     // Read the sections and students' data from a file in the allSections directory
-    private static void readAllSectionsFromFiles(ArrayList<Section> allSections) throws IOException, FileNotFoundException {
+    public static void readAllSectionsFromFiles(ArrayList<Section> allSections) throws IOException, FileNotFoundException {
         File allSectionsFile = new File("allSections/all-sections.txt");
         if (!allSectionsFile.exists()) {
             System.out.println("all-sections.txt file not found.");
@@ -329,10 +328,11 @@ public class StudentGradingSystem {
             writer.write(s.toString() + "\n");
         }
         writer.close();
+
     }
     
-    // ✅ Writes to 'allTeachingStaff/all-teaching-staff.txt'
-    public static void writeTeachingStaffToFile(ArrayList<TeachingStaff> staffList) throws IOException {
+        //  Writes to 'allTeachingStaff/all-teaching-staff.txt'
+        public static void writeTeachingStaffToFile(ArrayList<TeachingStaff> staffList) throws IOException {
         FileWriter writer = new FileWriter("allTeachingStaff/all-teaching-staff.txt");
         // File allTeachingStaffFile = new File("allTeachingStaff/all-teaching-staff.txt");
         // if (!allTeachingStaffFile.exists()) {
@@ -356,6 +356,38 @@ public class StudentGradingSystem {
         writer.write("");
         writer.close();
     }
+
+    // Write a formatted Graded File for each section
+        public static void writeFormattedGradedFile(Section section) throws IOException {
+            File dir = new File("allSectionsGraded");
+            if (!dir.exists()) dir.mkdir();
+
+            File gradedFile = new File(dir, section.getSectionName() + "_Graded.txt");
+            FileWriter writer = new FileWriter(gradedFile);
+
+            writer.write(String.format("Formatted Grade Report for Section: %s\n", section.getSectionName()));
+            writer.write("------------------------------------------------------------------------------------\n");
+            writer.write(String.format("%-25s %-10s %-25s %-20s %-10s\n", "Full Name", "ID", "Course", "Letter Grade", "Num Grade"));
+            writer.write("------------------------------------------------------------------------------------\n");
+
+            for (Student student : section.getStudents()) {
+                String fullName = student.getFirstname() + " " + student.getSurname();
+                String id = student.getStudentID();
+                String[] courses = student.getCourses();
+                String[] letterGrades = student.getLetterGrades();
+                double[] numGrades = student.getNumGrades();
+
+                for (int i = 0; i < courses.length; i++) {
+                    if (numGrades[i] > 0.0) {
+                        writer.write(String.format("%-25s %-10s %-25s %-20s %-10.2f\n",
+                                fullName, id, courses[i], letterGrades[i], numGrades[i]));
+                    }
+                }
+            }
+            writer.write("\n\n");
+            writer.close();
+        }
+
 
     // Write the admin's data to a file in the adminRecords directory
     // This is the first time the system is run, so we need to seed the database

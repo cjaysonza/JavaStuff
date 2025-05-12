@@ -1,0 +1,14 @@
+Formatted Grade Report for Section: CS1A
+------------------------------------------------------------------------------------
+Full Name                 ID         Course                    Letter Grade         Num Grade 
+------------------------------------------------------------------------------------
+Laura De Guzman           150104     Computer Programming 1    B                    87.00     
+Jane Del Rosario          150102     Computer Programming 1    B                    87.00     
+Jane Doe                  150124     Computer Programming 1    B                    87.00     
+Anna Marie Johnson        150132     Computer Programming 1    F                    45.00     
+Quentin Lee               150122     Computer Programming 1    F                    46.12     
+Ethan Lewis               150112     Computer Programming 1    A                    99.99     
+Paula Lewis               150101     Computer Programming 1    F                    1.00      
+Mary Anne Smith           150121     Computer Programming 1    B+                   88.45     
+Anna Marie Taylor         150110     Computer Programming 1    B+                   88.45     
+Diana Taylor              150136     Computer Programming 1    B+                   88.45     

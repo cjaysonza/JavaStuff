@@ -23,4 +23,8 @@ All Functionalities in the program have now been made. All that is left is file 
 
 v0.6
 Added input validation and error handling for Displays.gradeStudentsInSectionCourseConsole
-@csonza 05/12/2025-01:57:AM
+@csonza 05/12/2025-07:45:AM
+
+v0.7
+99% of all funcitonalities have been made. Prod Ready
+@csonza 05/12/2025-09:32:AM
