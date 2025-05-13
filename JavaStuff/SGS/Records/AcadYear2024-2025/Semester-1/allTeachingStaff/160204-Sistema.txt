@@ -1,0 +1,22 @@
+Name: Samantha Sistema
+Staff ID: 160204
+Department: Physical Education
+Sections Handled: CS1A
+Courses Taught: PATHFIT;Health and Wellness
+Teaching Record: -
+
+
+Grading for Section: CS1A, Course: PATHFIT
+Acad.Year: 2027-2028		Semester: 2
+----------------------------------------------------------------------------------------------------
+Laura De Guzman | 150104 | Grade: 85.56 (B)
+Jane Del Rosario | 150102 | Grade: 85.56 (B)
+Jane Doe | 150124 | Grade: 85.56 (B)
+Anna Marie Johnson | 150132 | Grade: 85.56 (B)
+Quentin Lee | 150122 | Grade: 67.46 (F)
+Ethan Lewis | 150112 | Grade: 99.99 (A)
+Paula Lewis | 150101 | Grade: 1.0 (F)
+Mary Anne Smith | 150121 | Grade: 86.09 (B)
+Anna Marie Taylor | 150110 | Grade: 86.09 (B)
+Diana Taylor | 150136 | Grade: 86.09 (B)
+

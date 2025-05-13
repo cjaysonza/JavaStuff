@@ -493,7 +493,7 @@ public class StudentGradingSystem {
                     // This clears the current allSections and allTeachingStaff in memory
                     clearCurrentSections(allSections);
                     clearCurrentTeachingStaffs(allTeachingStaff);
-                    System.out.print("Current allSections and allTeachingStaff has been cleered...");
+                    System.out.print("Current allSections and allTeachingStaff has been cleared...");
                     Displays.confirmNextPage();
                     break;
 

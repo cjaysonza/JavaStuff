@@ -1,0 +1,30 @@
+Formatted Grade Report for Section: CS1A
+Academic Year: 2027-2028
+Semester: 2
+----------------------------------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------------------------------
+Formatted Grade Report for Section: CS1A
+-> Course Graded: PATHFIT
+Full Name                 ID         Course                           Num Grade  Letter Grade        
+----------------------------------------------------------------------------------------------------
+Laura De Guzman           150104     PATHFIT                          85.56      B                   
+Jane Del Rosario          150102     PATHFIT                          85.56      B                   
+Jane Doe                  150124     PATHFIT                          85.56      B                   
+Anna Marie Johnson        150132     PATHFIT                          85.56      B                   
+Quentin Lee               150122     PATHFIT                          67.46      F                   
+Ethan Lewis               150112     PATHFIT                          99.99      A                   
+Paula Lewis               150101     PATHFIT                          1.00       F                   
+Mary Anne Smith           150121     PATHFIT                          86.09      B                   
+Anna Marie Taylor         150110     PATHFIT                          86.09      B                   
+Diana Taylor              150136     PATHFIT                          86.09      B                   
+
+
+----------------------------------------------------------------------------------------------------
+Formatted Grade Report for Section: CS1A
+-> Course Graded: Introduction to Computing
+Full Name                 ID         Course                           Num Grade  Letter Grade        
+----------------------------------------------------------------------------------------------------
+
+

@@ -4,3 +4,19 @@ Department: Computer Studies
 Sections Handled: CS1A;IT1B
 Courses Taught: Computer Programming 1;Introduction To Computing
 Teaching Record: -
+
+
+Grading for Section: CS1A, Course: Computer Programming 1
+Acad.Year: 2024-2025		Semester: 2
+----------------------------------------------------------------------------------------------------
+Laura De Guzman | 150104 | Grade: 86.0 (B)
+Jane Del Rosario | 150102 | Grade: 86.0 (B)
+Jane Doe | 150124 | Grade: 86.0 (B)
+Anna Marie Johnson | 150132 | Grade: 86.0 (B)
+Quentin Lee | 150122 | Grade: 87.0 (B)
+Ethan Lewis | 150112 | Grade: 87.0 (B)
+Paula Lewis | 150101 | Grade: 87.0 (B)
+Mary Anne Smith | 150121 | Grade: 93.0 (A)
+Anna Marie Taylor | 150110 | Grade: 93.0 (A)
+Diana Taylor | 150136 | Grade: 93.0 (A)
+

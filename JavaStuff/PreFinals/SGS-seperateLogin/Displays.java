@@ -161,49 +161,6 @@ public class Displays {
         // scanner.close();
     }
 
-    public static void chooseCourseToGrade(TeachingStaff teachingStaff) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(borderEqual + borderEqual);
-        System.out.println("Choose a course to grade: ");
-        for (int i = 0; i < teachingStaff.getCoursesTaught().size(); i++) {
-            System.out.println((i + 1) + ". " + teachingStaff.getCoursesTaught().get(i));
-        }
-        System.out.print("\nPlease select an option: ");
-        String userInput = scanner.nextLine();
-        scanner.close();
-
-        int courseIndex = Integer.parseInt(userInput) - 1;
-        if (courseIndex >= 0 && courseIndex < teachingStaff.getCoursesTaught().size()) {
-            String selectedCourse = teachingStaff.getCoursesTaught().get(courseIndex);
-            System.out.println("You have selected: " + selectedCourse);
-            // Add logic to grade students in the selected course
-        } else {
-            System.out.println("Invalid selection. Please try again.");
-        }
-
-        }
-
-    public static void chooseSectionToGrade(TeachingStaff teachingStaff) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(borderEqual + borderEqual);
-        System.out.println("Choose a section to grade: ");
-        for (int i = 0; i < teachingStaff.getSectionsHandled().size(); i++) {
-            System.out.println((i + 1) + ". " + teachingStaff.getSectionsHandled().get(i));
-        }
-        System.out.print("\nPlease select an option: ");
-        String userInput = scanner.nextLine();
-        scanner.close();
-
-        int sectionIndex = Integer.parseInt(userInput) - 1;
-        if (sectionIndex >= 0 && sectionIndex < teachingStaff.getSectionsHandled().size()) {
-            String selectedSection = teachingStaff.getSectionsHandled().get(sectionIndex);
-            System.out.println("You have selected: " + selectedSection);
-            // Add logic to grade students in the selected section
-        } else {
-            System.out.println("Invalid selection. Please try again.");
-        }
-    }
-
     // This is a confirmation page to ensure that the user wants to proceed to the next screen
     public static void confirmNextPage() {
             Scanner confirmInput = new Scanner(System.in);
