@@ -215,7 +215,7 @@ public class Displays {
                 String confirm = confirmInput.nextLine();
                 System.out.println("\n");
 
-                if (confirm.equalsIgnoreCase("y") || confirm.equalsIgnoreCase("yes")) {
+                if (confirm.equalsIgnoreCase("y") || confirm.equalsIgnoreCase("yes") || confirm.equalsIgnoreCase("")) {
                     runConfirm = false;
                 } else {
                     System.out.println("Invalid Input, Please Try again");
