@@ -1,6 +1,6 @@
 public abstract class Person {
-    protected String surname;
-    protected String firstname;
+    public String surname;
+    public String firstname;
 
     public Person() {}
 

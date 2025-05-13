@@ -32,3 +32,7 @@ v0.7
 v0.8
 Code Review. Found some bugs, TODO is close the scanner in the teachingStaff menu. Semi-ditched admin records function as too difficult at the time.
 @csonza 05/12/2025-09:32:AM
+
+mk.3 v0.2
+FINALLY FIXED THE APPEND TO GRADE FILE BUG LETS GO
+@csonza 05/12/2025-09:32:AM

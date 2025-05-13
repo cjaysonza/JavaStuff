@@ -4,19 +4,3 @@ Department: Computer Studies
 Sections Handled: CS1A;IT1B
 Courses Taught: Computer Programming 1;Introduction To Computing
 Teaching Record: -
-
-
-Grading for Section: IT1B, Course: Computer Programming 1
-Acad.Year: 2027-2028		Semester: 2
-----------------------------------------------------------------------------------------------------
-Alice Clark | 150100 | Grade: 89.56 (B+)
-Nina De Guzman | 150113 | Grade: 89.56 (B+)
-Anna Marie Doe | 150105 | Grade: 89.56 (B+)
-Alice Lewis | 150118 | Grade: 89.56 (B+)
-Bob San Pedro | 150129 | Grade: 89.56 (B+)
-Hannah Smith | 150133 | Grade: 89.56 (B+)
-Jenny Taylor | 150128 | Grade: 89.56 (B+)
-Nina Taylor | 150116 | Grade: 89.56 (B+)
-John Paul Walker | 150106 | Grade: 89.56 (B+)
-Mary Anne Young | 150126 | Grade: 89.56 (B+)
-

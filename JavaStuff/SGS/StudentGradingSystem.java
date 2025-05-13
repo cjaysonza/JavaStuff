@@ -3,8 +3,8 @@
  * This is a simple Java program that serves as a starting point for a student grading system.
  * @author: csonza, rmol, vgba
  * 
- * @Mark-Update: 0.2
- * @Version-Update: 0.7
+ * @Mark-Update: 0.3
+ * @Version-Update: 0.2
  */
 
 import java.io.*;
@@ -390,7 +390,7 @@ public class StudentGradingSystem {
         writer.write(Displays.border + Displays.border + "\n");
         writer.write(String.format("Formatted Grade Report for Section: %s\n", section.getSectionName()));
         writer.write("-> Course Graded: " + courseInputName + "\n");
-        writer.write(String.format("%-25s %-10s %-25s %-20s %-10s\n", "Full Name", "ID", "Course", "Letter Grade", "Num Grade"));
+        writer.write(String.format("%-25s %-10s %-32s %-10s %-20s\n", "Full Name", "ID", "Course", "Num Grade", "Letter Grade"));
         writer.write(Displays.border + Displays.border + "\n");
 
         for (Student student : section.getStudents()) {
@@ -401,12 +401,14 @@ public class StudentGradingSystem {
             double[] numGrades = student.getNumGrades();
 
             for (int i = 0; i < courses.length; i++) {
-                if (numGrades[i] > 0.0) {
-                    writer.write(String.format("%-25s %-10s %-25s %-20s %-10.2f\n",
-                            fullName, id, courses[i], letterGrades[i], numGrades[i]));
+                if (courses[i].equalsIgnoreCase(courseInputName) && numGrades[i] > 0.0) {
+                    writer.write(String.format("%-25s %-10s %-32s %-10.2f %-20s\n",
+                            fullName, id, courses[i], numGrades[i], letterGrades[i]));
+                    break; // Stop checking further courses for this student
                 }
             }
         }
+
         writer.write("\n\n");
         writer.close();
     }

@@ -15,7 +15,6 @@ public class Displays {
     
     // Borders
     public static String border = "--------------------------------------------------";
-    public static String borderDash = "--------------------------------------------------";
     public static String borderEqual = "==================================================";
 
 
@@ -124,7 +123,7 @@ public class Displays {
             System.out.println(borderEqual + borderEqual);
             System.out.println("1. View Teaching Record");
             System.out.println("2. View Class List");
-            System.out.println("3. Grade Students of a Section");
+            System.out.println("3. Select Section and Course to grade.");
             System.out.println("0. Logout");
             System.out.print("\nPlease select an option: ");
             String userInput = scanner.nextLine();
@@ -352,6 +351,7 @@ public class Displays {
         // Check if course is found
         if (!courseFound) {
             System.out.println("Course not found in this section. Please check the course name and try again.");
+            // scan.close();
             return;
         }
 
@@ -359,12 +359,14 @@ public class Displays {
         // Check if any student of the current selection has a numGrade value that is not "0.0"
         if (alreadyGraded) {
             System.out.println("This section has already been graded for the course '" + courseInput + "'.");
+            // scan.close();
             return;
         }
 
         // Check if user inputs were a valid assignment
         if (!isValidTeacherAssignment(teacher, sectionInput, courseInput)) {
             System.out.println("You are not authorized to grade this section or course.");
+            // scan.close();
             return;
         }
 
@@ -374,13 +376,16 @@ public class Displays {
         String output = "\nGrading for Section: " + selectedSection.getSectionName() + ", Course: " + courseInput + "\n";
         output += currentData + "\n";
         output += border + border + "\n";
+        int courseIndexToPass;
 
         System.out.println(output);
         for (Student student : selectedSection.getStudents()) {
             int courseIndex = -1;
+            // String compiledGradedStudents = "";
             for (int i = 0; i < student.getCourses().length; i++) {
                 if (student.getCourses()[i].equals(courseInput)) {
                     courseIndex = i;
+                    courseIndexToPass = courseIndex;
                     break;
                 }
             }
@@ -397,7 +402,7 @@ public class Displays {
             }
         
         }
-        scan.close();
+        // scan.close();
 
         System.out.println("\n--- Grading Summary ---");
         System.out.println(output);

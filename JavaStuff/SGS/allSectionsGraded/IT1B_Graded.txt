@@ -1,23 +1,6 @@
 Formatted Grade Report for Section: IT1B
-Academic Year: 2026-2027
-Semester: 1
+Academic Year: 2027-2028
+Semester: 2
 ----------------------------------------------------------------------------------------------------
-
-
-----------------------------------------------------------------------------------------------------
-Formatted Grade Report for Section: IT1B
--> Course Graded: Computer Programming 1
-Full Name                 ID         Course                    Letter Grade         Num Grade 
-----------------------------------------------------------------------------------------------------
-Alice Clark               150100     Computer Programming 1    B+                   89.56     
-Nina De Guzman            150113     Computer Programming 1    B+                   89.56     
-Anna Marie Doe            150105     Computer Programming 1    B+                   89.56     
-Alice Lewis               150118     Computer Programming 1    B+                   89.56     
-Bob San Pedro             150129     Computer Programming 1    B+                   89.56     
-Hannah Smith              150133     Computer Programming 1    B+                   89.56     
-Jenny Taylor              150128     Computer Programming 1    B+                   89.56     
-Nina Taylor               150116     Computer Programming 1    B+                   89.56     
-John Paul Walker          150106     Computer Programming 1    B+                   89.56     
-Mary Anne Young           150126     Computer Programming 1    B+                   89.56     
 
 
