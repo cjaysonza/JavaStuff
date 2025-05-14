@@ -4,3 +4,20 @@ Semester: 2
 ----------------------------------------------------------------------------------------------------
 
 
+----------------------------------------------------------------------------------------------------
+Formatted Grade Report for Section: IT1A
+-> Course Graded: Competitive Programming 1
+Full Name                 ID         Course                           Num Grade  Letter Grade        
+----------------------------------------------------------------------------------------------------
+Oscar De la Cruz          150115     Competitive Programming 1        99.99      A                   
+Nina Del Rosario          150135     Competitive Programming 1        67.00      F                   
+Nina Doe                  150103     Competitive Programming 1        89.00      B+                  
+Christian Jay Lee         150130     Competitive Programming 1        67.00      F                   
+Quentin Lewis             150111     Competitive Programming 1        67.00      F                   
+Bob Smith                 150114     Competitive Programming 1        67.00      F                   
+Mary Anne Smith           150108     Competitive Programming 1        67.00      F                   
+Carlos Taylor             150109     Competitive Programming 1        67.00      F                   
+John Paul Taylor          150134     Competitive Programming 1        67.00      F                   
+Hannah Walker             150107     Competitive Programming 1        67.00      F                   
+
+

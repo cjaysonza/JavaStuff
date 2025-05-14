@@ -6,15 +6,8 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Utility {
-
-    public static String generateRandomID() {
-        Random rand = new Random();
-        int id = 100000 + rand.nextInt(900000);
-        return String.valueOf(id);
-    }
 
     public static String[] parseArray(String input) {
         input = input.replaceAll("[\\[\\]]", "").trim();
@@ -87,14 +80,6 @@ public class Utility {
         record.append("\n");
         record.append(bodyoftext);
         record.append("\n");
-    record.close();
-    }
-    
-    public static void appendToAdminRecord(String bodyoftext) throws IOException{
-        FileWriter record = new FileWriter("adminRecords/TheAdmin-000001.txt", true);
-        // record.append("\n");
-        record.append(bodyoftext);
-        // record.append("\n");
     record.close();
     }
     

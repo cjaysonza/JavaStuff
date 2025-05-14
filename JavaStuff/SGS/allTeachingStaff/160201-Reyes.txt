@@ -4,3 +4,19 @@ Department: Computer Studies
 Sections Handled: CS1B;IT1A
 Courses Taught: Competitive Programming 1;Computer Programming 1
 Teaching Record: -
+
+
+Grading for Section: IT1A, Course: Competitive Programming 1
+Acad.Year: 2024-2025		Semester: 2
+----------------------------------------------------------------------------------------------------
+Oscar De la Cruz | 150115 | Grade: 99.99 (A)
+Nina Del Rosario | 150135 | Grade: 67.0 (F)
+Nina Doe | 150103 | Grade: 89.0 (B+)
+Christian Jay Lee | 150130 | Grade: 67.0 (F)
+Quentin Lewis | 150111 | Grade: 67.0 (F)
+Bob Smith | 150114 | Grade: 67.0 (F)
+Mary Anne Smith | 150108 | Grade: 67.0 (F)
+Carlos Taylor | 150109 | Grade: 67.0 (F)
+John Paul Taylor | 150134 | Grade: 67.0 (F)
+Hannah Walker | 150107 | Grade: 67.0 (F)
+

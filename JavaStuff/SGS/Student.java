@@ -18,7 +18,6 @@ public class Student extends Person {
     }
 
     // Getters and Setters
-
     public String getStudentID() {
         return studentID;
     }

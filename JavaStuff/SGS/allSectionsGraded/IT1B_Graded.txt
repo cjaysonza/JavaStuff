@@ -4,3 +4,20 @@ Semester: 2
 ----------------------------------------------------------------------------------------------------
 
 
+----------------------------------------------------------------------------------------------------
+Formatted Grade Report for Section: IT1B
+-> Course Graded: Computer Programming 1
+Full Name                 ID         Course                           Num Grade  Letter Grade        
+----------------------------------------------------------------------------------------------------
+Alice Clark               150100     Computer Programming 1           90.00      B+                  
+Nina De Guzman            150113     Computer Programming 1           87.00      B                   
+Anna Marie Doe            150105     Computer Programming 1           87.67      B                   
+Alice Lewis               150118     Computer Programming 1           87.67      B                   
+Bob San Pedro             150129     Computer Programming 1           87.67      B                   
+Hannah Smith              150133     Computer Programming 1           87.67      B                   
+Jenny Taylor              150128     Computer Programming 1           87.67      B                   
+Nina Taylor               150116     Computer Programming 1           87.67      B                   
+John Paul Walker          150106     Computer Programming 1           87.67      B                   
+Mary Anne Young           150126     Computer Programming 1           87.67      B                   
+
+

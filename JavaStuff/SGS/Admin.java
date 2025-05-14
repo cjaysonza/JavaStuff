@@ -26,10 +26,6 @@ public class Admin extends Person {
         this.adminFileName= adminFilePath;
     }
 
-    public Admin(){
-        super();
-    }
-
     // There can only be one admin in the system, so this method will return the first admin found in the file only.
     public static Admin readAdminFromFile() throws FileNotFoundException {
         try (Scanner adminScanner = new Scanner(new File("masterDatabase/adminDatabase.txt"))) {

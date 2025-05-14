@@ -21,3 +21,20 @@ Anna Marie Taylor         150110     Computer Programming 1           93.00     
 Diana Taylor              150136     Computer Programming 1           93.00      A                   
 
 
+----------------------------------------------------------------------------------------------------
+Formatted Grade Report for Section: CS1A
+-> Course Graded: Introduction To Computing
+Full Name                 ID         Course                           Num Grade  Letter Grade        
+----------------------------------------------------------------------------------------------------
+Laura De Guzman           150104     Introduction To Computing        89.00      B+                  
+Jane Del Rosario          150102     Introduction To Computing        89.00      B+                  
+Jane Doe                  150124     Introduction To Computing        89.00      B+                  
+Anna Marie Johnson        150132     Introduction To Computing        78.00      C                   
+Quentin Lee               150122     Introduction To Computing        78.00      C                   
+Ethan Lewis               150112     Introduction To Computing        78.00      C                   
+Paula Lewis               150101     Introduction To Computing        71.00      F                   
+Mary Anne Smith           150121     Introduction To Computing        85.00      B                   
+Anna Marie Taylor         150110     Introduction To Computing        85.00      B                   
+Diana Taylor              150136     Introduction To Computing        85.00      B                   
+
+

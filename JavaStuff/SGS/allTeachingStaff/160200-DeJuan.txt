@@ -20,3 +20,35 @@ Mary Anne Smith | 150121 | Grade: 93.0 (A)
 Anna Marie Taylor | 150110 | Grade: 93.0 (A)
 Diana Taylor | 150136 | Grade: 93.0 (A)
 
+
+
+Grading for Section: IT1B, Course: Computer Programming 1
+Acad.Year: 2024-2025		Semester: 2
+----------------------------------------------------------------------------------------------------
+Alice Clark | 150100 | Grade: 90.0 (B+)
+Nina De Guzman | 150113 | Grade: 87.0 (B)
+Anna Marie Doe | 150105 | Grade: 87.67 (B)
+Alice Lewis | 150118 | Grade: 87.67 (B)
+Bob San Pedro | 150129 | Grade: 87.67 (B)
+Hannah Smith | 150133 | Grade: 87.67 (B)
+Jenny Taylor | 150128 | Grade: 87.67 (B)
+Nina Taylor | 150116 | Grade: 87.67 (B)
+John Paul Walker | 150106 | Grade: 87.67 (B)
+Mary Anne Young | 150126 | Grade: 87.67 (B)
+
+
+
+Grading for Section: CS1A, Course: Introduction To Computing
+Acad.Year: 2024-2025		Semester: 2
+----------------------------------------------------------------------------------------------------
+Laura De Guzman | 150104 | Grade: 89.0 (B+)
+Jane Del Rosario | 150102 | Grade: 89.0 (B+)
+Jane Doe | 150124 | Grade: 89.0 (B+)
+Anna Marie Johnson | 150132 | Grade: 78.0 (C)
+Quentin Lee | 150122 | Grade: 78.0 (C)
+Ethan Lewis | 150112 | Grade: 78.0 (C)
+Paula Lewis | 150101 | Grade: 71.0 (F)
+Mary Anne Smith | 150121 | Grade: 85.0 (B)
+Anna Marie Taylor | 150110 | Grade: 85.0 (B)
+Diana Taylor | 150136 | Grade: 85.0 (B)
+

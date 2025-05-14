@@ -69,24 +69,14 @@ public class StudentGradingSystem {
                     Displays.displayExitMessage();
                     System.out.println("Exiting the program...");
                     isRunning = false;
-                    Utility.appendToAdminRecord("\nProgram was ended\n\n");
                     break;
                 default:
                     System.out.println("\nInvalid input. Please try again.");
-                    Utility.appendToAdminRecord("\nuser made invalid input");
                 break;
             }
         }
 
-// END OF START MENU
-
-        // // This is the first time the system is run, so we need to seed the database
-        // seedSectionsAndStudents(allSections);
-        // seedTeachingStaff(allTeachingStaff);
-        
-        // Uncomment the following lines to run the program without user input
-        // printFirstStudentOfEverySection(allSections);
-        
+    // END OF START MENU
     }
 
     // Current academic year is read from a file
@@ -591,12 +581,13 @@ public class StudentGradingSystem {
         System.out.println("Pushed to next Academic Year: " + currentAY);
     }
 
-    // Clear the current allSections and allTeachingStaff in memory
+    // Clear the current allSections in memory
     private static ArrayList<Section> clearCurrentSections(ArrayList<Section> allSections) {
         allSections.clear();
         return allSections;
     }
 
+    // Clear the current allTeachingStaff in memory
     private static ArrayList<TeachingStaff> clearCurrentTeachingStaffs(ArrayList<TeachingStaff> allTeachingStaff) {
         allTeachingStaff.clear();
         return allTeachingStaff;

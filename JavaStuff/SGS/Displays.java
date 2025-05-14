@@ -35,6 +35,7 @@ public class Displays {
         return userInput; 
     }
 
+    // Exit message that is shown everytime the program ends.
     public static void displayExitMessage() throws IOException {
         String exitMessage = "Thank you for using the University Management System. Goodbye!";
         System.out.println(borderEqual + borderEqual);
@@ -144,6 +145,7 @@ public class Displays {
                     gradeStudentsInSectionCourseConsole(allSections, teachingStaff);
                     confirmNextPage();
                     break;
+                
                 case "0":
                     // Logout
                     System.out.println("Logging out. Returning to Start Menu");
@@ -167,7 +169,7 @@ public class Displays {
             while (runConfirm) { 
                 System.out.println("\n");
                 System.out.println("Proceed with Next Page: ");
-                System.out.println("[Y] Yes");
+                System.out.println("'Y' | 'Yes' | [ENTER]");
                 System.out.print(":> ");
                 String confirm = confirmInput.nextLine();
                 System.out.println("\n");
@@ -198,7 +200,7 @@ public class Displays {
 
     // Prints all the students of all sections. If you handle that said section, it prints all their students. Otherwise, throws a message.
     public static void viewClassListForTeacher(TeachingStaff staff, ArrayList<Section> allSections) {
-        System.out.println("\n📋 CLASS LIST FOR " + staff.getFirstname() + " " + staff.getSurname());
+        System.out.println("\n<- CLASS LIST FOR " + staff.getFirstname() + " " + staff.getSurname() + " ->");
 
         boolean anyMatches = false;
 
@@ -210,14 +212,12 @@ public class Displays {
 
                     for (String course : staff.getCoursesTaught()) {
                         // Track if this course has any matching students
-                        boolean foundAny = false;
                         String Header = String.format("--%-16s %-16s | %-8s   | %s","Surname", "Firstname", "Student ID", "Major");
-
                         System.out.println("\n  Section: " + sectionName + " | Course: " + course);
                         System.out.println(border + border);
                         System.out.println(Header);
                         System.out.println(border + border);
-
+                        boolean foundAny = false;
 
                         for (Student student : studentsInSection) {
                             for (String studentCourse : student.getCourses()) {
@@ -229,10 +229,6 @@ public class Displays {
                                                                     student.getStudentID(),
                                                                     student.getMajor()            
                                                                     );
-
-                                    // System.out.println("> " + student.getFirstname() + " " + student.getSurname()
-                                    //         + " | ID: " + student.getStudentID()
-                                    //         + " | Major: " + student.getMajor());
                                     System.out.println(output);
                                     foundAny = true;
                                     anyMatches = true;
@@ -268,9 +264,18 @@ public class Displays {
         }
 
         // Prompt for section name
+        // Note: Name Must be 1-1 in syntax
+        System.out.print("\n(Input must be 1-to-1)\t\t(input = 'prev' to return to previous screen)");
         System.out.print("\nEnter section to grade: ");
         String sectionInput = scan.nextLine().trim();
 
+        // If user just made a wrong input and wants to return to previous screen.
+        if (sectionInput.equalsIgnoreCase("prev")) {
+            System.out.println("Returning to previous page...");
+            return;
+        }
+
+        // Check for a matching name in the student
         Section selectedSection = null;
         for (Section s : allSections) {
             if (s.getSectionName().equalsIgnoreCase(sectionInput)) {
@@ -278,26 +283,35 @@ public class Displays {
                 break;
             }
         }
-
+    
+        // If no name matches the users input.
         if (selectedSection == null) {
             System.out.println("Section not found.");
             return;
         }
 
         // Display all Courses Taught by this teacher
+        System.out.print("\n(Input must be 1-to-1)\t\t(input = 'prev' to return to previous screen)");
         System.out.println("\nCourses you handle:");
         for (String courseName : teacher.getCoursesTaught()) {
             System.out.println("- " + courseName);
         } System.out.println("\n");
 
         // Prompt for course name
+        // Note: Name Must be 1-1 in syntax
         System.out.print("Enter course to grade: ");
         String courseInput = scan.nextLine().trim();
 
+        if (courseInput.equalsIgnoreCase("prev")) {
+            System.out.println("Returning to previous page...");
+            return;
+        }
+
+        // Search in array of student's array of courses for matching course.
         boolean courseFound = false;
         for (Student student : selectedSection.getStudents()) {
             for (String course : student.getCourses()) {
-                if (course.equalsIgnoreCase(courseInput)) {
+                if (course.equals(courseInput)) {
                     courseFound = true;
                     break;
                 }
@@ -308,22 +322,17 @@ public class Displays {
         // Check if course is found
         if (!courseFound) {
             System.out.println("Course not found in this section. Please check the course name and try again.");
-            // scan.close();
             return;
         }
 
         boolean alreadyGraded = Displays.isCourseAlreadyGraded(selectedSection, courseInput);
-        // Check if any student of the current selection has a numGrade value that is not "0.0"
         if (alreadyGraded) {
             System.out.println("This section has already been graded for the course '" + courseInput + "'.");
-            // scan.close();
             return;
         }
 
-        // Check if user inputs were a valid assignment
         if (!isValidTeacherAssignment(teacher, sectionInput, courseInput)) {
             System.out.println("You are not authorized to grade this section or course.");
-            // scan.close();
             return;
         }
 
@@ -333,45 +342,50 @@ public class Displays {
         String output = "\nGrading for Section: " + selectedSection.getSectionName() + ", Course: " + courseInput + "\n";
         output += currentData + "\n";
         output += border + border + "\n";
-        int courseIndexToPass;
 
         System.out.println(output);
-        for (Student student : selectedSection.getStudents()) {
+        for (int s = 0; s < selectedSection.getStudents().size(); s++) {
+            Student student = selectedSection.getStudents().get(s);
             int courseIndex = -1;
-            // String compiledGradedStudents = "";
             for (int i = 0; i < student.getCourses().length; i++) {
                 if (student.getCourses()[i].equals(courseInput)) {
                     courseIndex = i;
-                    courseIndexToPass = courseIndex;
                     break;
                 }
             }
             String studFullName = student.getFirstname() + " " + student.getSurname();
 
             if (courseIndex != -1) {
-                System.out.print("Enter grade for " + studFullName + " (" + student.getStudentID() + "): ");
-                double grade = Utility.clampGrade(Double.parseDouble(scan.nextLine().trim()));
+                double grade = -1.0;
+                while (true) {
+                    System.out.print("Enter grade for " + studFullName + " (" + student.getStudentID() + "): ");
+                    String input = scan.nextLine().trim();
+                    try {
+                        grade = Utility.clampGrade(Double.parseDouble(input));
+                        break;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Not a numerical value. Please try again.");
+                    }
+                }
+
                 student.getNumGrades()[courseIndex] = grade;
                 student.getLetterGrades()[courseIndex] = Utility.toLetterGrade(grade);
 
                 output += studFullName + " | " + student.getStudentID();
                 output += " | Grade: " + grade + " (" + Utility.toLetterGrade(grade) + ")\n";
             }
-        
         }
-        // scan.close();
 
         System.out.println("\n--- Grading Summary ---");
         System.out.println(output);
 
-        // filename to append to teaching record
         String proFile = teacher.getStaffID() + "-" + teacher.getSurname().replace(" ", "");
         Utility.appendToTeachingRecord(output, proFile);
 
         StudentGradingSystem.writeSectionToFile(selectedSection);
         StudentGradingSystem.appendToFormattedGradedFile(selectedSection, courseInput);
-        // StudentGradingSystem.readAllSectionsFromFiles(allSections);
     }
+
 
     // Helper method in assessing if a section has already been graded.
     public static boolean isCourseAlreadyGraded(Section section, String courseName) {
